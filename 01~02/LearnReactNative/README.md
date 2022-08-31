@@ -31,7 +31,7 @@
 
 - 리액트 네이티브에서 스타일링할때에 숫자 단위는 dp 뿐이다
 
-  - ![px, dp 차이점](https://selfish-developer.com/entry/px-dp-sp-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC)
+  - [px, dp 차이점](https://selfish-developer.com/entry/px-dp-sp-%EA%B0%9C%EB%85%90-%EC%A0%95%EB%A6%AC)
 
 - `borderWidth` 값을 통해서 테두리의 두께를 정하였을때 ios는 테두리를 피해 안쪽에 텍스트가 위치하였는데 android는 테두리와 겹침 현상 발생
   - text에 직접적인 padding 또는 margin , textAlignVertical 속성을 주어 UI 변경해야함
