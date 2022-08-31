@@ -1,12 +1,22 @@
 > 본 예제는 Typescrip template로 작성됨.
 
+<br/>
+
+<br/>
+
+<br/>
+
 ### 실행 방법
 
 `yarn ios` 또는 `yarn android`
 
 > 안드로이드는 안드로이드 에뮬레이터를 켠 상태로 위 명령어 실행
 
-# 1강, 리액트 네이티브 첫걸음
+<br/>
+<br/>
+<br/>
+
+# 1쟝, 리액트 네이티브 첫걸음
 
 ## 새로 알게된 것
 
@@ -19,9 +29,12 @@
 - 네이티브 시스템에 컴포넌트를 등록/노출하기 위해 `index.js` 에서 `AppRegistry.registerComponent` 함수에 root component(<App/>) 에 등록
 - 기본 컴포넌트 `<Text/>` 에 아무런 스타일링을 하지 않고 글씨를 적어 색상을 비교해보면 ios 가 더 진하다 (안드로이드는 회색처럼 보임), 폰트도 다르다
 
----
+<br/>
+<br/>
+<br/>
+<br/>
 
-# 2강, 컴포넌트
+# 2장, 컴포넌트
 
 ## 새로 알게된 것
 
@@ -39,11 +52,17 @@
 ## 새롭게 느껴지는 것
 
 - `display: flex` default 값으로 설정 되어 있고 `flexDirection : column` 으로 맞춰져 있음
+
   - justifyContent 또는 alignItems 쓸 때에 유의 !
+
 - react-native 에서 지원하는 `<View/>`, `<Text/>` 컴포넌트는 대문자부터 시작한다
+
   - 기본 컴포넌트라 착각해서 react와 같이 `<view/> or <text/>` 로 작성하는 일은 없길...
+
 - styling은 타겟 컴포넌트에 해당하는 스타일링만 진행할 것 !!!
+
   - 예를들어 `<View/>`안에 `<Text>` 컬러를 바꾸고 싶다하였을 때 암만 View 컴포넌트 스타일을 바꿔봤자 안바뀜... (Text 에서 바꾸어야 함 !)
+
 - `<Button/>` 의 스타일링이 color 속성에 값을 주면 ios는 **텍스트에**, android는 **배경에** 적용된다
 
 ## 느낀 점
