@@ -34,13 +34,13 @@
   };
   ```
 
-  <img src="../capture/%08StatusBarTest.png" width="500">
+  <img src="../capture/StatusBarTest.png" width="500">
 
   <br/>
 
 - `react-native-safe-area-context` 라이브러리 사용하였는데 유용함
   <br/>
-- 이미지는 기종에 따라 가장 최적화된 이미지로 보여준다.
+- 이미지는 디바이스 화면 밀도 따라 가장 선명한 이미지로 보여준다
 
   - 아래 이미지들이 있고 이미지를 연동하는 코드에는 `circle.png`를 연결해도 기종에 따라 가장 선명한 해상도의 이미지를 보여준다(화면에서는 circle@3x.png)
 
@@ -50,8 +50,21 @@
   <Image source={require('../assets/images/circle.png')} />
   ```
 
-  <!-- ![](../capture//%08viewImage.png) -->
-  <img src="../capture//%08viewImage.png" width="500">
+  <img src="../capture/viewImage.png" width="500">
+
+  <br/>
+
+- Resize Mode
+
+  - 별도의 이미지 Resize를 하지 않으면 200dp x 200dp 사이즈로 설정되며 보여진다
+  - Resize Mode를 설정하지 않으면 `cover` 로 기본 설정된다
+
+  <br/>
+
+- Background Color 의 차이
+
+  - 백그라운드 색상을 지정하지 않은 상태에서 ios는 흰색으로 표현되지만 android는 연한 회색으로 나타난다
+    <img src="../capture/differentBg.png" width="500">
 
   <br/>
 
