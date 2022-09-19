@@ -68,9 +68,16 @@
 
   <br/>
 
+- KeyboardAvoidingView 에서 behavior
+  - padding : 키보드가 열렸을때 뷰 하단의 패딩을 설정
+  - height : 뷰의 높이 자체를 변경 (키보드가 닫혔을때에도 적용됨)
+  - position : 뷰의 위치 설정
+
 ## 새롭게 느껴지는 것
 
 - 기본적으로 display 가 flex 이고 flexDirection이 column으로 잡혀있어서 순차적 UI 전개가 가능하며
   굳이 컴포넌트마다 flex를 쓰지 않아도 제일 넓은 비중을 차지해야하는 컴포넌트에 flex를 지정하면 잔여 공간을 모두 차지함 (대신 상위 컴포넌트에 flex 지정해줘야함 )
 
 ## 느낀 점
+
+- Expo cli를 썼을때보다 네이티브 진영에 신경써야할 부분이 많지만 라이브러리 선택/적용에 있어서는 더욱더 편리한 것 같다
