@@ -6,11 +6,20 @@ import {
   Platform,
   TouchableOpacity,
   TouchableNativeFeedback,
+  Keyboard,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 const AddTodo = () => {
   const {block, input, addIcon, androidButton} = styles;
+  const [text, setText] = useState('');
+
+  const handlePress = () => {
+    console.log(text);
+    setText('');
+    Keyboard.dismiss();
+  };
+
   const button = (
     <View style={addIcon}>
       <Image source={require('../assets/icons/add_white/add_white.png')} />
@@ -19,12 +28,23 @@ const AddTodo = () => {
 
   return (
     <View style={block}>
-      <TextInput placeholder="할일을 입력하세요" style={input} />
+      <TextInput
+        placeholder="할일을 입력하세요"
+        style={input}
+        value={text}
+        onChangeText={setText}
+        returnKeyType="done"
+        onSubmitEditing={handlePress}
+      />
       {Platform.select({
-        ios: <TouchableOpacity>{button}</TouchableOpacity>,
+        ios: (
+          <TouchableOpacity onPress={handlePress}>{button}</TouchableOpacity>
+        ),
         android: (
           <View style={androidButton}>
-            <TouchableNativeFeedback>{button}</TouchableNativeFeedback>
+            <TouchableNativeFeedback onPress={handlePress}>
+              {button}
+            </TouchableNativeFeedback>
           </View>
         ),
       })}
