@@ -45,7 +45,11 @@ const App = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           style={styles.keyboardAvoid}>
           <DateHead currentDate={new Date()} />
-          {todoList.length ? <TodoList todoList={todoList} /> : <Empty />}
+          {todoList.length ? (
+            <TodoList todoList={todoList} onCheck={handleChange.onChange} />
+          ) : (
+            <Empty />
+          )}
           <AddTodo onInsert={handleChange.onInsert} />
         </KeyboardAvoidingView>
       </SafeAreaView>
