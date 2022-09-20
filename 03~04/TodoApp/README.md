@@ -74,7 +74,11 @@
   - height : 뷰의 높이 자체를 변경 (키보드가 닫혔을때에도 적용됨)
   - position : 뷰의 위치 설정
 
-- `Keyboard.dismiss();` 키보드 객체 컨트롤
+- `Keyboard.dismiss();` 키보드 객체를 컨트롤하여 키보드를 닫을 수 있다.
+- `<FlatList/>` 에서 `ItemSeparatorComponent` 속성은 리스트를 구성하는 아이템 컴포넌트의 gap에 대한 정의를 할 수 있다.
+- react-native에 자체 내장되어 있던 `AsyncStorage` 는 커뮤니티에서 유지보수 하면서 라이브러리로 분리되었음
+  - : @react-native-async-storage/async-storage
+  - Promise 문법 또는 async/await 문법을 활용하여 사용
 
 ## 새롭게 느껴지는 것
 

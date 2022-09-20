@@ -17,6 +17,9 @@ const AddTodo = ({onInsert}: AddTodoProps) => {
   const [text, setText] = useState('');
 
   const handlePress = () => {
+    if (!text.length) {
+      return;
+    }
     onInsert(text);
     setText('');
     Keyboard.dismiss();
@@ -33,9 +36,10 @@ const AddTodo = ({onInsert}: AddTodoProps) => {
       <TextInput
         placeholder="할일을 입력하세요"
         style={input}
+        autoCorrect={false}
         value={text}
         onChangeText={setText}
-        returnKeyType="search"
+        returnKeyType="done"
         onSubmitEditing={handlePress}
       />
       {Platform.select({

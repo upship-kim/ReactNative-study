@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
 import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
 import TodoList from './components/TodoList';
+import useStorage from './hooks/useStorage';
 
 export type TodoListTypes = {
   id: number;
@@ -15,6 +17,26 @@ export type TodoListTypes = {
 const App = () => {
   const [todoList, setTodoList] = useState<TodoListTypes[]>([]);
   const [insertId, setInsertId] = useState(0);
+  const {getStorage, setStorage} = useStorage();
+
+  useEffect(() => {
+    (async () => {
+      const response = await getStorage('todoList');
+      setTodoList(response);
+      setInsertId(response[response.length - 1].id + 1);
+    })();
+
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setStorage('todoList', JSON.stringify(todoList));
+
+    return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todoList]);
+
   const handleChange = {
     onInsert: (text: string) => {
       setTodoList(
@@ -46,7 +68,11 @@ const App = () => {
           style={styles.keyboardAvoid}>
           <DateHead currentDate={new Date()} />
           {todoList.length ? (
-            <TodoList todoList={todoList} onCheck={handleChange.onChange} />
+            <TodoList
+              todoList={todoList}
+              onCheck={handleChange.onChange}
+              onDelete={handleChange.onDelete}
+            />
           ) : (
             <Empty />
           )}

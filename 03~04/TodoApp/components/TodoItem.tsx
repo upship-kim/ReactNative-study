@@ -1,14 +1,35 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import React from 'react';
 import {TodoListTypes} from '../App';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface TodoItemProps {
   item: TodoListTypes;
   onCheck: () => void;
+  onDelete: () => void;
 }
 
-const TodoItem = ({item, onCheck}: TodoItemProps) => {
-  const {container, circle, textWrap, checkedCircle, checkedText} = styled;
+const TodoItem = ({item, onCheck, onDelete}: TodoItemProps) => {
+  const handleRemove = () => {
+    Alert.alert(
+      '삭제',
+      '정말로 삭제 하시겠어요?',
+      [
+        {text: '취소', onPress: () => {}, style: 'cancel'},
+        {text: '삭제', onPress: onDelete, style: 'destructive'},
+      ],
+      {cancelable: true, onDismiss: () => {}},
+    );
+  };
+  const {container, circle, textWrap, checkedCircle, checkedText, blankView} =
+    styled;
   return (
     <TouchableOpacity onPress={onCheck}>
       <View style={container}>
@@ -18,6 +39,16 @@ const TodoItem = ({item, onCheck}: TodoItemProps) => {
           />
         </View>
         <Text style={[textWrap, item.done && checkedText]}>{item.text}</Text>
+        {item.done ? (
+          <Icon
+            name="delete"
+            size={32}
+            color="#ff7ea5"
+            onPress={handleRemove}
+          />
+        ) : (
+          <View style={blankView} />
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -53,5 +84,9 @@ const styled = StyleSheet.create({
   checkedText: {
     color: 'gray',
     textDecorationLine: 'line-through',
+  },
+  blankView: {
+    width: 32,
+    height: 32,
   },
 });

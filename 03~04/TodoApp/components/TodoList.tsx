@@ -6,16 +6,21 @@ import TodoItem from './TodoItem';
 interface TodoListProps {
   todoList: TodoListTypes[];
   onCheck: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
-const TodoList = ({todoList, onCheck}: TodoListProps) => {
+const TodoList = ({todoList, onCheck, onDelete}: TodoListProps) => {
   return (
     <FlatList
       data={todoList}
-      ItemSeparatorComponent={() => <View style={style.seperator} />}
+      ItemSeparatorComponent={() => <View style={style.separator} />}
       keyExtractor={({id}) => String(id)}
       renderItem={({item}) => (
-        <TodoItem item={item} onCheck={() => onCheck(item.id)} />
+        <TodoItem
+          item={item}
+          onCheck={() => onCheck(item.id)}
+          onDelete={() => onDelete(item.id)}
+        />
       )}
     />
   );
@@ -24,7 +29,7 @@ const TodoList = ({todoList, onCheck}: TodoListProps) => {
 export default TodoList;
 
 const style = StyleSheet.create({
-  seperator: {
+  separator: {
     height: 1,
     backgroundColor: '#e0e0e0',
   },
