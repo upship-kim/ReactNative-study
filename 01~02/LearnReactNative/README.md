@@ -1,4 +1,4 @@
-> 본 예제는 Typescrip template로 작성됨.
+> 본 예제는 Typescript template 으로 작성됨.
 
 <br/>
 
