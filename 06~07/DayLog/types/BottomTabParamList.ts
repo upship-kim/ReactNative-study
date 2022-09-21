@@ -1,5 +1,5 @@
 export type BottomTabParamList = {
   Feeds: undefined;
-  Calendard: undefined;
+  Calendar: undefined;
   Search: undefined;
 };
