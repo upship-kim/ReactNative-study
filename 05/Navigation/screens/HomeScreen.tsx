@@ -1,15 +1,20 @@
 import {View, Button} from 'react-native';
 import React from 'react';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+// import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
 import {useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../navigator/NativeStackNavigator';
 // import {DrawerNavigationProp} from '@react-navigation/drawer';
 
-type ProfileScreenNavigationProp = NativeStackNavigationProp<
+type ProfileScreenNavigationProp = BottomTabNavigationProp<
   RootStackParamList,
   'Home'
 >;
+// type ProfileScreenNavigationProp = NativeStackNavigationProp<
+//   RootStackParamList,
+//   'Home'
+// >;
 // type ProfileScreenNavigationProp = DrawerNavigationProp<
 //   RootStackParamList,
 //   'Home'
@@ -21,7 +26,7 @@ const HomeScreen = () => {
   return (
     <View>
       <Button
-        title="Drawer 열기 "
+        title="Detail "
         // onPress={() => navigate.push('Detail', {id: 112})}
         onPress={() => navigate.navigate('Detail', {id: 200})}
       />

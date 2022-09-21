@@ -1,10 +1,11 @@
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 // import HomeScreen from '../screens/HomeScreen';
 // import DetailScreen from '../screens/DetailScreen';
 import NativeStackNavigator from './NativeStackNavigator';
 import NativeStackNavigator2 from './NativeStackNavigator2';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Common = () => {
   return (
@@ -29,18 +30,31 @@ const DrawerNavigator = () => {
         drawerStatusBarAnimation: 'fade',
         drawerType: 'front',
       })}
-      //   drawerContent={() => (
-      //     <View>
-      //       <Text>dfadsfs</Text>
-      //     </View>
-      //   )}
-    >
-      <Drawer.Screen name="NativeStack1" component={NativeStackNavigator} />
+      drawerContent={({navigation}) => (
+        <SafeAreaView>
+          <View>
+            <Text>Custom Drawer Component</Text>
+            <Button
+              title="Drawer 닫기"
+              onPress={() => navigation.closeDrawer()}
+            />
+          </View>
+        </SafeAreaView>
+      )}>
+      <Drawer.Screen
+        name="NativeStack1"
+        component={NativeStackNavigator}
+        options={({navigation}) => ({
+          headerLeft: () => (
+            <Button title="left" onPress={() => navigation.openDrawer()} />
+          ),
+        })}
+      />
       <Drawer.Screen name="NativeStack2" component={NativeStackNavigator2} />
       <Drawer.Screen
         name="그냥 뷰"
         component={Common}
-        options={{title: 'dhqtus'}}
+        options={{title: '그냥 뷰에여'}}
       />
     </Drawer.Navigator>
     // <Common />

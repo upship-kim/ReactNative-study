@@ -99,5 +99,20 @@
   - 그리고 pod install 해주고 실행 전 `yarn start --reset-cache` 를 해주어 캐시 삭제 한 뒤 실행
   - 참고로 `react-native-reanimated@2.8.0`버전은 안드로이드 에러 이슈, `react-native-reanimated@next`는 `WARN Sending`onReanimatedPropsChange` with no listeners registered.`이슈가 있다.
 - Drawer에 내에 StackNavigator를 쌓을 수 있다.
+- `getFocusedRouteNameFromRoute()` 와 같이 현재 내가 띄우고 있는 페이지의 라우드 이름을 받아오는 함수도 있다.
+- `useFocusEffect()`를 통해 현재 페이지의 마운트 또는 언마운트에 따라 컨트롤가능하다.(아래와 같이 사용하고 useCallback을 함께 사용)
+  ```javascript
+  useFocusEffect(
+    useCallback(() => {
+      console.log('이 화면을 보고있어요');
+      return () => {
+        console.log('벗어났어요 ');
+      };
+    }, []),
+  );
+  ```
 
 ## 느낀 점
+
+- Focus가 되었을때 컨트롤을 위한 유틸 함수들을 친절히 제공해주는 것 같다.
+- 처음 앱의 Stack 구조에 따라서 다양한 Navigator 들이 유용하게 쓰일 것 같다.
