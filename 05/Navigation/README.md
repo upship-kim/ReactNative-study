@@ -1,4 +1,5 @@
-> 본 예제는 Typescript template 으로 작성됨.
+> 본 예제는 Typescript template 으로 작성되었고, 5장 예시의 내용은 JS로 구현되어있지만 TS로 적용하며 스터디 진행
+> 그래서 다른 장(12장)에 타입스크립트 적용하기 내용과 중복될 수 있음
 
 <br/>
 
@@ -81,5 +82,22 @@
 
   export default DetailScreen;
   ```
+
+- navigate 와 push 의 차이점은 같은 화면일때에 스택이 쌓이는지 아닌지의 차이
+
+  - 예시: Detail 페이지 일 경우 param값만 바꿔서 같은 Detail 페이지로 navigate 할 경우 스택이 쌓이지 않음
+
+- `react-native-gesture-handler` 는 드로어 네비게이터 에서 사용자의 제스처를 인식하기 위해 내부적으로 사용하는 라이브러리
+- `react-native-reanimated` 는 리액트 네이비트에 내장된 애니메이션 효과 기능보다 더욱 개선된 성능으로 애니메이션 효과를 구현해주는 라이브러리
+  - `react-native-reanimated`적용을 위해서 `babel.config.js` 에 `plugins: ['react-native-reanimated/plugin']` 추가해야함
+    ```javascript
+    module.exports = {
+      presets: ['module:metro-react-native-babel-preset'],
+      plugins: ['react-native-reanimated/plugin'],
+    };
+    ```
+  - 그리고 pod install 해주고 실행 전 `yarn start --reset-cache` 를 해주어 캐시 삭제 한 뒤 실행
+  - 참고로 `react-native-reanimated@2.8.0`버전은 안드로이드 에러 이슈, `react-native-reanimated@next`는 `WARN Sending`onReanimatedPropsChange` with no listeners registered.`이슈가 있다.
+- Drawer에 내에 StackNavigator를 쌓을 수 있다.
 
 ## 느낀 점
