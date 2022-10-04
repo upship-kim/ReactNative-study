@@ -18,6 +18,7 @@ const MainTab = () => {
           tabBarIcon: ({color, size}) => (
             <Icon name="view-stream" size={size} color={color} />
           ),
+          title: '피드',
         }}
       />
       <Tab.Screen
@@ -27,6 +28,7 @@ const MainTab = () => {
           tabBarIcon: ({color, size}) => (
             <Icon name="event" size={size} color={color} />
           ),
+          title: '캘린더',
         }}
       />
       <Tab.Screen
@@ -36,6 +38,7 @@ const MainTab = () => {
           tabBarIcon: ({color, size}) => (
             <Icon name="search" size={size} color={color} />
           ),
+          title: '검색',
         }}
       />
     </Tab.Navigator>

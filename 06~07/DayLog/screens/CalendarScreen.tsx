@@ -13,11 +13,10 @@ type BottomTabRouteTypes = RouteProp<BottomTabParamList, 'Calendar'>;
 const CalendarScreen = () => {
   const navigate = useNavigation<BottomTabNavigateTypes>();
   const route = useRoute<BottomTabRouteTypes>();
-
   const {block} = styled;
   return (
     <View style={block}>
-      <Text>CalendarScreen</Text>
+      <Text>CalendarScreen </Text>
     </View>
   );
 };
