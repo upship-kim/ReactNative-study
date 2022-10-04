@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
 
@@ -9,12 +9,21 @@ interface FeedItemProps {
 const FeedItem = ({data}: FeedItemProps) => {
   const {body, date, id, title} = data;
   const {container, dateText, titleText, bodyText} = style;
+
+  function truncate(text: string) {
+    const replaced = text.replace(/\n/g, ' ');
+    if (replaced.length <= 100) {
+      return replaced;
+    }
+    return replaced.slice(0, 100).concat('...');
+  }
+
   return (
-    <View style={container}>
+    <Pressable style={container}>
       <Text style={dateText}>{new Date(date).toLocaleString()}</Text>
       <Text style={titleText}>{title}</Text>
-      <Text style={bodyText}>{body}</Text>
-    </View>
+      <Text style={bodyText}>{truncate(body)}</Text>
+    </Pressable>
   );
 };
 
@@ -22,21 +31,20 @@ export default FeedItem;
 
 const style = StyleSheet.create({
   container: {
-    borderBottomWidth: 1,
-    borderColor: '#e3e3e3',
     padding: 10,
   },
   dateText: {
     color: '#acacac',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   titleText: {
     fontWeight: '700',
     color: 'black',
     fontSize: 20,
-    marginBottom: 4,
+    marginBottom: 8,
   },
   bodyText: {
-    marginBottom: 4,
+    paddingLeft: 6,
+    marginBottom: 8,
   },
 });

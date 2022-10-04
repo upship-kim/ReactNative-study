@@ -5,7 +5,8 @@ import {BottomTabParamList} from '../types/BottomTabParamList';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import FloatingWriteButton from '../components/FloatingWriteButton';
 import LogContext from '../contexts/LogContext';
-import FeedItem from './FeedItem';
+
+import FeedList from './FeedList';
 
 type BottomTabNavigateTypes = BottomTabNavigationProp<
   BottomTabParamList,
@@ -22,7 +23,7 @@ const FeedsScreen = () => {
 
   return (
     <View style={block}>
-      <FlatList data={logs} renderItem={({item}) => <FeedItem data={item} />} />
+      <FeedList logs={logs} />
       <FloatingWriteButton />
     </View>
   );
@@ -30,16 +31,6 @@ const FeedsScreen = () => {
 
 const styled = StyleSheet.create({
   block: {flex: 1},
-  box: {
-    borderWidth: 2,
-    padding: 16,
-    borderBottomColor: 'black',
-    marginBottom: 16,
-  },
-  input: {
-    padding: 16,
-    backgroundColor: 'white',
-  },
 });
 
 export default FeedsScreen;
