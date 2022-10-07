@@ -16,7 +16,7 @@ export type LogTypes = {
   id: string;
   title: string;
   body: string;
-  date: string;
+  date: Date;
   // setText: React.Dispatch<React.SetStateAction<string>>;
 };
 
@@ -27,7 +27,134 @@ const LogContext = createContext<DataTypes>({
 });
 
 export const LogContextProvider = ({children}: ProviderProps) => {
-  const [logs, setLogs] = useState<LogTypes[]>([]);
+  const [logs, setLogs] = useState<LogTypes[]>([
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디1',
+      date: new Date(),
+      title: 'test1111',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디2',
+      date: new Date('2022-10-04'),
+      title: 'test2',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('1990-09-24'),
+      title: 'test333333',
+    },
+  ]);
 
   const onCreate = (props: Omit<LogTypes, 'id'>) => {
     setLogs(logs.concat({id: uuidv4(), ...props}));

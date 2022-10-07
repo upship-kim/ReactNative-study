@@ -1,6 +1,7 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {Text, StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
+import formatDate from '../utils/formatDate';
 
 interface FeedItemProps {
   data: LogTypes;
@@ -20,7 +21,7 @@ const FeedItem = ({data}: FeedItemProps) => {
 
   return (
     <Pressable style={container}>
-      <Text style={dateText}>{new Date(date).toLocaleString()}</Text>
+      <Text style={dateText}>{formatDate(date)}</Text>
       <Text style={titleText}>{title}</Text>
       <Text style={bodyText}>{truncate(body)}</Text>
     </Pressable>

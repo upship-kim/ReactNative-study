@@ -20,6 +20,52 @@
 
 - 주로 예제에 버튼 대용으로 많이 쓰인 `<Pressable/>` 컴포넌트에 대해서 새로 접하게 되었다.
 - `uuid` 라는 라이브러리에 대해서 경험하였고, 토이프로젝트나 또는 프론트 단에서 임시로 유니크한 id를 관리할 때에 좋다고 느꼈다.
+- Animated 객체의 사용
+
+  - 간략한 예제
+
+  ```jsx
+  const Sample () => {
+      const animation = useRef(new Animaied.Value(1)).current;
+
+      useEffect(()=>{
+          //toValue와 useNativeDriver는 필수 입력값
+          Animated.timing(animation, {
+              toValue: 0,
+              useNativeDriver: true,
+          }).start();
+      return () => {};
+    }, [animation]);
+
+    return (
+      <Animated.View
+          style={{
+              // 위 Animated의 timing이 0이 되면서 opacity도 0이 되는 구조
+              opacity: animation,
+              // 여러 스타일을 동시에 적용하고 싶을때 사용
+              // inputRange : 위에서 정의한 toValue 값
+              // outputRange : inputRange 값에 따라 변동되는 속성값
+              transform: [
+                {
+                  translateX: animation.interpolate({
+                    inputRange: [INPUT_VALUE2, INPUT_VALUE1],
+                    outputRange: [50, 150],
+                  }),
+                },
+              ],
+
+              backgroundColor: 'red',
+              width: 100,
+              height: 100,
+            }}>
+
+      </Animated.View>
+    )
+  }
+  ```
+
+  - useRef와 함께 사용함으로서 reference를 선택하고 애니메이션의 속성을 지정할때에 `toValue` 와 `useNativeDriver` 값 입력은 필수
+  - 단, `useNativeDriver`는 JS엔진이 아닌 Native엔진에서 진행하는 옵션이므로 transform, opacity 처럼 레이아웃과 관련이 없는 스타일에만 적용
 
 ## 느낀 점
 

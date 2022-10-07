@@ -1,16 +1,55 @@
-import {View, StyleSheet, Platform, Pressable} from 'react-native';
-import React from 'react';
+import {
+  View,
+  StyleSheet,
+  Platform,
+  Pressable,
+  Animated,
+  ViewProps,
+} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootParamList} from '../types/RootParamList';
-const FloatingWriteButton = () => {
+
+interface ButtonProps {
+  hidden: boolean;
+}
+// interface AnimatedStyleType extends Animated.AnimatedProps<ViewProps> {}
+
+const FloatingWriteButton = ({hidden}: ButtonProps) => {
   const {wrapper, button, icon} = Style;
 
   const navigate = useNavigation<NavigationProp<RootParamList, 'Main'>>();
 
+  const animation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: hidden ? 0 : 1,
+      useNativeDriver: true,
+    }).start();
+    return () => {};
+  }, [animation, hidden]);
+
   const onPress = () => navigate.navigate('Write');
+  // const temp: AnimatedStyleType = {
+  //   style: {
+  //     transform: [
+  //       {
+  //         translateX: animation.interpolate({
+  //           inputRange: [0, 1],
+  //           outputRange: [0, 88],
+  //         }),
+  //       },
+  //     ],
+  //     opacity: animation.interpolate({
+  //       inputRange: [0, 1],
+  //       outputRange: [1, 0],
+  //     }),
+  //   },
+  // };
   return (
-    <View style={wrapper}>
+    <View style={[wrapper]}>
       <Pressable
         style={({pressed}) => [
           button,

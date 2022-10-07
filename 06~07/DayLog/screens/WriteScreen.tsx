@@ -33,7 +33,7 @@ const WriteScreen = () => {
   };
 
   const onSave = () => {
-    onCreate({...content, date: new Date().toISOString()});
+    onCreate({...content, date: new Date()});
     Alert.alert('알림', '등록 되었습니다');
     goBack();
   };
