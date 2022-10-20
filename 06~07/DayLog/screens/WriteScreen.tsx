@@ -4,7 +4,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import WriteHeader from '../components/WriteHeader';
 import WriteEditor from '../components/WriteEditor';
 import LogContext from '../contexts/LogContext';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {RootParamList} from '../types/RootParamList';
 
 type ContentTypes = {
@@ -14,15 +19,14 @@ type ContentTypes = {
 
 const WriteScreen = () => {
   const navigate = useNavigation<NavigationProp<RootParamList, 'Write'>>();
-
+  const {params} = useRoute<RouteProp<RootParamList, 'Write'>>();
   const {block, keyboard} = styled;
-
   const [content, setContent] = useState<ContentTypes>({
-    title: '',
-    body: '',
+    title: params?.title || '',
+    body: params?.body || '',
   });
 
-  const {onCreate} = useContext(LogContext);
+  const {onCreate, onDelete, onModify} = useContext(LogContext);
 
   const goBack = () => {
     navigate.goBack();
@@ -33,9 +37,33 @@ const WriteScreen = () => {
   };
 
   const onSave = () => {
-    onCreate({...content, date: new Date()});
+    if (params?.id) {
+      onModify({...params, ...content});
+      Alert.alert('알림', '수정 되었습니다');
+      goBack();
+      return;
+    }
+    onCreate({...content, date: new Date().toISOString()});
     Alert.alert('알림', '등록 되었습니다');
     goBack();
+  };
+
+  const onAskRemove = () => {
+    Alert.alert('삭제', '정말로 삭제하시겠어요?', [
+      {text: '취소', style: 'cancel'},
+      {
+        text: '삭제',
+        style: 'destructive',
+        onPress: () => {
+          if (!params?.id) {
+            goBack();
+            return;
+          }
+          onDelete({id: params.id});
+          goBack();
+        },
+      },
+    ]);
   };
 
   return (
@@ -43,7 +71,11 @@ const WriteScreen = () => {
       <KeyboardAvoidingView
         style={keyboard}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <WriteHeader onSave={onSave} goBack={goBack} />
+        <WriteHeader
+          onSave={onSave}
+          goBack={goBack}
+          onAskRemove={onAskRemove}
+        />
         <WriteEditor
           title={content.title}
           body={content.body}

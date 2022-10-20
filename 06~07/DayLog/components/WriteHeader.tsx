@@ -5,11 +5,10 @@ import IconButton from './IconButton';
 interface WriteHeaderProps {
   onSave: () => void;
   goBack: () => void;
+  onAskRemove: () => void;
 }
 
-const WriteHeader = ({onSave, goBack}: WriteHeaderProps) => {
-  const onDelete = () => {};
-
+const WriteHeader = ({onSave, goBack, onAskRemove}: WriteHeaderProps) => {
   const {container, blockLeft, blockRight} = style;
 
   return (
@@ -21,7 +20,7 @@ const WriteHeader = ({onSave, goBack}: WriteHeaderProps) => {
         <IconButton
           name="delete-forever"
           hasMarginRight
-          onPress={onDelete}
+          onPress={onAskRemove}
           color="#ef5350"
         />
         <IconButton name="check" onPress={onSave} color="#009688" />

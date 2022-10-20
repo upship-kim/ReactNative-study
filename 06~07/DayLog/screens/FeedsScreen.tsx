@@ -21,9 +21,15 @@ const FeedsScreen = () => {
   const {logs} = useContext(LogContext);
   const {block} = styled;
 
+  const onScrolledToBottom = (isBottom: boolean) => {
+    if (hidden !== isBottom) {
+      setHidden(isBottom);
+    }
+  };
+
   return (
     <View style={block}>
-      <FeedList logs={logs} setHidden={setHidden} />
+      <FeedList logs={logs} onScrolledToBottom={onScrolledToBottom} />
       <FloatingWriteButton hidden={hidden} />
     </View>
   );

@@ -10,20 +10,21 @@ type DataTypes = {
   logs: LogTypes[];
   onCreate: (props: Omit<LogTypes, 'id'>) => void;
   onDelete: (props: Pick<LogTypes, 'id'>) => void;
+  onModify: (props: LogTypes) => void;
 };
 
 export type LogTypes = {
   id: string;
   title: string;
   body: string;
-  date: Date;
-  // setText: React.Dispatch<React.SetStateAction<string>>;
+  date: string;
 };
 
 const LogContext = createContext<DataTypes>({
   logs: [],
   onCreate: () => {},
   onDelete: () => {},
+  onModify: (props: LogTypes) => {},
 });
 
 export const LogContextProvider = ({children}: ProviderProps) => {
@@ -31,127 +32,91 @@ export const LogContextProvider = ({children}: ProviderProps) => {
     {
       id: uuidv4(),
       body: '테스트 바디1',
-      date: new Date(),
+      date: new Date().toISOString(),
       title: 'test1111',
     },
     {
       id: uuidv4(),
       body: '테스트 바디2',
-      date: new Date('2022-10-04'),
+      date: new Date('2022-10-04').toISOString(),
       title: 'test2',
     },
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24'),
+      date: new Date('1990-09-24').toISOString(),
       title: 'test333333',
     },
     {
       id: uuidv4(),
       body: '테스트 바디1',
-      date: new Date(),
+      date: new Date().toISOString(),
       title: 'test1111',
     },
     {
       id: uuidv4(),
       body: '테스트 바디2',
-      date: new Date('2022-10-04'),
+      date: new Date('2022-10-04').toISOString(),
       title: 'test2',
     },
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24'),
+      date: new Date('1990-09-24').toISOString(),
       title: 'test333333',
     },
     {
       id: uuidv4(),
       body: '테스트 바디1',
-      date: new Date(),
+      date: new Date().toISOString(),
       title: 'test1111',
     },
     {
       id: uuidv4(),
       body: '테스트 바디2',
-      date: new Date('2022-10-04'),
+      date: new Date('2022-10-04').toISOString(),
       title: 'test2',
     },
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24'),
+      date: new Date('1990-09-24').toISOString(),
       title: 'test333333',
     },
     {
       id: uuidv4(),
       body: '테스트 바디1',
-      date: new Date(),
+      date: new Date().toISOString(),
       title: 'test1111',
     },
     {
       id: uuidv4(),
       body: '테스트 바디2',
-      date: new Date('2022-10-04'),
+      date: new Date('2022-10-04').toISOString(),
       title: 'test2',
     },
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24'),
+      date: new Date('1990-09-24').toISOString(),
       title: 'test333333',
     },
     {
       id: uuidv4(),
       body: '테스트 바디1',
-      date: new Date(),
+      date: new Date().toISOString(),
       title: 'test1111',
     },
     {
       id: uuidv4(),
       body: '테스트 바디2',
-      date: new Date('2022-10-04'),
+      date: new Date('2022-10-04').toISOString(),
       title: 'test2',
     },
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24'),
-      title: 'test333333',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디1',
-      date: new Date(),
-      title: 'test1111',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디2',
-      date: new Date('2022-10-04'),
-      title: 'test2',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디3',
-      date: new Date('1990-09-24'),
-      title: 'test333333',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디1',
-      date: new Date(),
-      title: 'test1111',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디2',
-      date: new Date('2022-10-04'),
-      title: 'test2',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디3',
-      date: new Date('1990-09-24'),
+      date: new Date('1990-09-24').toISOString(),
       title: 'test333333',
     },
   ]);
@@ -162,9 +127,21 @@ export const LogContextProvider = ({children}: ProviderProps) => {
   const onDelete = ({id}: Pick<LogTypes, 'id'>) => {
     setLogs(logs.filter(item => item.id !== id));
   };
+  const onModify = (props: LogTypes) => {
+    setLogs(
+      logs.map(item => {
+        if (item.id === props.id) {
+          return {...props};
+        }
+        return {...item};
+      }),
+    );
+  };
 
   const Provider = LogContext.Provider;
-  return <Provider value={{logs, onCreate, onDelete}}>{children}</Provider>;
+  return (
+    <Provider value={{logs, onCreate, onDelete, onModify}}>{children}</Provider>
+  );
 };
 
 export default LogContext;

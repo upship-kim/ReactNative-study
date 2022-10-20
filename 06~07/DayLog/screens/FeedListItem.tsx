@@ -2,14 +2,22 @@ import {Text, StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
 import formatDate from '../utils/formatDate';
+import {useNavigation} from '@react-navigation/native';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {RootParamList} from '../types/RootParamList';
 
 interface FeedItemProps {
-  data: LogTypes;
+  log: LogTypes;
 }
-
-const FeedItem = ({data}: FeedItemProps) => {
-  const {body, date, id, title} = data;
+type BottomTabNavigateTypes = BottomTabNavigationProp<RootParamList, 'Main'>;
+const FeedListItem = ({log}: FeedItemProps) => {
+  const {body, date, id, title} = log;
   const {container, dateText, titleText, bodyText} = style;
+  const navigation = useNavigation<BottomTabNavigateTypes>();
+
+  const onPress = () => {
+    navigation.navigate('Write', log);
+  };
 
   function truncate(text: string) {
     const replaced = text.replace(/\n/g, ' ');
@@ -20,15 +28,15 @@ const FeedItem = ({data}: FeedItemProps) => {
   }
 
   return (
-    <Pressable style={container}>
-      <Text style={dateText}>{formatDate(date)}</Text>
+    <Pressable style={container} onPress={onPress}>
+      <Text style={dateText}>{formatDate(new Date(date))}</Text>
       <Text style={titleText}>{title}</Text>
       <Text style={bodyText}>{truncate(body)}</Text>
     </Pressable>
   );
 };
 
-export default FeedItem;
+export default FeedListItem;
 
 const style = StyleSheet.create({
   container: {

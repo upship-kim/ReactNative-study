@@ -7,33 +7,39 @@ import {
 } from 'react-native';
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
-import FeedItem from './FeedItem';
+import FeedItem from './FeedListItem';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {BottomTabParamList} from '../types/BottomTabParamList';
 
 interface ListProps {
   logs: LogTypes[];
-  setHidden: React.Dispatch<React.SetStateAction<boolean>>;
+  onScrolledToBottom: (isBottom: boolean) => void;
 }
-
-const FeedList = ({logs, setHidden}: ListProps) => {
+type BottomTabNavigateTypes = BottomTabNavigationProp<
+  BottomTabParamList,
+  'Feeds'
+>;
+const FeedList = ({logs, onScrolledToBottom}: ListProps) => {
   const {block, seperator} = styled;
+
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (!onScrolledToBottom) {
+      return;
+    }
     const {contentSize, layoutMeasurement, contentOffset} = e.nativeEvent;
 
-    const canButtonView =
-      contentSize.height - (layoutMeasurement.height + contentOffset.y) < 72;
+    const distanceFromBottom =
+      contentSize.height - (layoutMeasurement.height + contentOffset.y);
 
-    canButtonView ? setHidden(false) : setHidden(true);
+    onScrolledToBottom(distanceFromBottom > 72);
   };
   return (
     <FlatList
       data={logs}
-      renderItem={({item}) => <FeedItem data={item} />}
+      renderItem={({item}) => <FeedItem log={item} />}
       ItemSeparatorComponent={() => <View style={seperator} />}
       keyExtractor={({id}) => id}
       style={block}
-      // onEndReached={({distanceFromEnd}) => {
-      //   console.log(distanceFromEnd, 'near end');
-      // }}
       onScroll={onScroll}
     />
   );

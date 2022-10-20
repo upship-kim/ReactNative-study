@@ -4,17 +4,17 @@ import {
   Platform,
   Pressable,
   Animated,
-  ViewProps,
+  ViewStyle,
 } from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootParamList} from '../types/RootParamList';
+import {StyleProp} from 'react-native';
 
 interface ButtonProps {
   hidden: boolean;
 }
-// interface AnimatedStyleType extends Animated.AnimatedProps<ViewProps> {}
 
 const FloatingWriteButton = ({hidden}: ButtonProps) => {
   const {wrapper, button, icon} = Style;
@@ -24,32 +24,34 @@ const FloatingWriteButton = ({hidden}: ButtonProps) => {
   const animation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.timing(animation, {
+    Animated.spring(animation, {
       toValue: hidden ? 0 : 1,
       useNativeDriver: true,
+      tension: 45,
+      friction: 5,
     }).start();
     return () => {};
   }, [animation, hidden]);
 
-  const onPress = () => navigate.navigate('Write');
-  // const temp: AnimatedStyleType = {
-  //   style: {
-  //     transform: [
-  //       {
-  //         translateX: animation.interpolate({
-  //           inputRange: [0, 1],
-  //           outputRange: [0, 88],
-  //         }),
-  //       },
-  //     ],
-  //     opacity: animation.interpolate({
-  //       inputRange: [0, 1],
-  //       outputRange: [1, 0],
-  //     }),
-  //   },
-  // };
+  const onPress = () => {
+    navigate.navigate('Write');
+  };
+  const animationAction = {
+    transform: [
+      {
+        translateY: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 88],
+        }),
+      },
+    ],
+    opacity: animation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0],
+    }),
+  };
   return (
-    <View style={[wrapper]}>
+    <Animated.View style={[wrapper, animationAction]}>
       <Pressable
         style={({pressed}) => [
           button,
@@ -60,7 +62,7 @@ const FloatingWriteButton = ({hidden}: ButtonProps) => {
         onPress={onPress}>
         <Icon name="add" size={24} style={icon} />
       </Pressable>
-    </View>
+    </Animated.View>
   );
 };
 

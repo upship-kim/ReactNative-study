@@ -67,6 +67,8 @@
   - useRef와 함께 사용함으로서 reference를 선택하고 애니메이션의 속성을 지정할때에 `toValue` 와 `useNativeDriver` 값 입력은 필수
   - 단, `useNativeDriver`는 JS엔진이 아닌 Native엔진에서 진행하는 옵션이므로 transform, opacity 처럼 레이아웃과 관련이 없는 스타일에만 적용
 
+- `<View/>` 컴포넌트에 `style`로 animation 동작 액션을 넣으려면 `<Animated.View/>`를 사용해야 style에 해당 액션을 주입하였을때 에러가 나지 않음
+
 ## 느낀 점
 
 - 전역 상태관리를 context API를 활용하며 'render props' 디자인패턴에 대해 다시금 복습한 계기가 되었다.
