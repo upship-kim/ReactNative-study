@@ -1,11 +1,13 @@
-import {View, Text, StyleSheet, FlatList, ListRenderItem} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React, {useContext} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {BottomTabParamList} from '../types/BottomTabParamList';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import SearchContext from '../contexts/SearchContext';
-import LogContext, {LogTypes} from '../contexts/LogContext';
-import FeedListItem from './FeedListItem';
+import LogContext from '../contexts/LogContext';
+
+import FeedList from './FeedList';
+import EmptySearchResult from '../components/EmptySearchResult';
 
 type BottomTabNavigateTypes = BottomTabNavigationProp<
   BottomTabParamList,
@@ -30,14 +32,17 @@ const SearchScreen = () => {
 
   return (
     <View style={block}>
-      <FlatList
-        data={filtered}
-        renderItem={({item}) => <FeedListItem log={item} />}
-      />
+      {filtered.length ? (
+        <FeedList logs={filtered} />
+      ) : (
+        <EmptySearchResult
+          type={keyword.length ? 'NOT_FOUND' : 'EMPTY_KEYWORD'}
+        />
+      )}
     </View>
   );
 };
 
-const styled = StyleSheet.create({block: {}});
+const styled = StyleSheet.create({block: {flex: 1}});
 
 export default SearchScreen;

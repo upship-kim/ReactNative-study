@@ -8,12 +8,9 @@ import {
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
 import FeedItem from './FeedListItem';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import {BottomTabParamList} from '../types/BottomTabParamList';
-
 interface ListProps {
   logs: LogTypes[];
-  onScrolledToBottom: (isBottom: boolean) => void;
+  onScrolledToBottom?: (isBottom: boolean) => void;
 }
 
 const FeedList = ({logs, onScrolledToBottom}: ListProps) => {

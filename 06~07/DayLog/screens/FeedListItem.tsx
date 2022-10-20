@@ -11,7 +11,7 @@ interface FeedItemProps {
 }
 type BottomTabNavigateTypes = BottomTabNavigationProp<RootParamList, 'Main'>;
 const FeedListItem = ({log}: FeedItemProps) => {
-  const {body, date, id, title} = log;
+  const {body, date, title} = log;
   const {container, dateText, titleText, bodyText} = style;
   const navigation = useNavigation<BottomTabNavigateTypes>();
 
