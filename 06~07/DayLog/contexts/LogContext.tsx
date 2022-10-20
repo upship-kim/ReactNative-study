@@ -38,13 +38,19 @@ export const LogContextProvider = ({children}: ProviderProps) => {
     {
       id: uuidv4(),
       body: '테스트 바디2',
-      date: new Date('2022-10-04').toISOString(),
+      date: new Date('2022-10-20').toISOString(),
       title: 'test2',
     },
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24').toISOString(),
+      date: new Date('2022-10-01').toISOString(),
+      title: 'test333333',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디3',
+      date: new Date('2022-10-08').toISOString(),
       title: 'test333333',
     },
     {
@@ -62,7 +68,7 @@ export const LogContextProvider = ({children}: ProviderProps) => {
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24').toISOString(),
+      date: new Date('2022-09-24').toISOString(),
       title: 'test333333',
     },
     {
@@ -80,7 +86,7 @@ export const LogContextProvider = ({children}: ProviderProps) => {
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24').toISOString(),
+      date: new Date('2022-09-24').toISOString(),
       title: 'test333333',
     },
     {
@@ -98,7 +104,7 @@ export const LogContextProvider = ({children}: ProviderProps) => {
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24').toISOString(),
+      date: new Date('2022-10-24').toISOString(),
       title: 'test333333',
     },
     {
@@ -116,7 +122,7 @@ export const LogContextProvider = ({children}: ProviderProps) => {
     {
       id: uuidv4(),
       body: '테스트 바디3',
-      date: new Date('1990-09-24').toISOString(),
+      date: new Date('2022-10-31').toISOString(),
       title: 'test333333',
     },
   ]);
