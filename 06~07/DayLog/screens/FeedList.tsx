@@ -15,10 +15,7 @@ interface ListProps {
   logs: LogTypes[];
   onScrolledToBottom: (isBottom: boolean) => void;
 }
-type BottomTabNavigateTypes = BottomTabNavigationProp<
-  BottomTabParamList,
-  'Feeds'
->;
+
 const FeedList = ({logs, onScrolledToBottom}: ListProps) => {
   const {block, seperator} = styled;
 

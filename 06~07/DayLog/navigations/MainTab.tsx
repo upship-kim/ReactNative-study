@@ -5,6 +5,7 @@ import FeedsScreen from '../screens/FeedsScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import SearchScreen from '../screens/SearchScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchHeader from '../components/SearchHeader';
 
 const MainTab = () => {
   const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -39,6 +40,7 @@ const MainTab = () => {
             <Icon name="search" size={size} color={color} />
           ),
           title: '검색',
+          headerTitle: () => <SearchHeader />,
         }}
       />
     </Tab.Navigator>
