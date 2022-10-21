@@ -25,6 +25,9 @@ const WriteScreen = () => {
     title: params?.title || '',
     body: params?.body || '',
   });
+  const [date, setDate] = useState(
+    params ? new Date(params?.date) : new Date(),
+  );
 
   const {onCreate, onDelete, onModify} = useContext(LogContext);
 
@@ -38,12 +41,12 @@ const WriteScreen = () => {
 
   const onSave = () => {
     if (params?.id) {
-      onModify({...params, ...content});
+      onModify({...params, ...content, date: date.toISOString()});
       Alert.alert('알림', '수정 되었습니다');
       goBack();
       return;
     }
-    onCreate({...content, date: new Date().toISOString()});
+    onCreate({...content, date: date.toISOString()});
     Alert.alert('알림', '등록 되었습니다');
     goBack();
   };
@@ -66,6 +69,10 @@ const WriteScreen = () => {
     ]);
   };
 
+  const onChangeDate = (selectedDate: Date) => {
+    setDate(selectedDate);
+  };
+
   return (
     <SafeAreaView style={block}>
       <KeyboardAvoidingView
@@ -73,8 +80,10 @@ const WriteScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <WriteHeader
           onSave={onSave}
+          selectedDate={date}
           goBack={goBack}
           onAskRemove={onAskRemove}
+          onChangeDate={onChangeDate}
         />
         <WriteEditor
           title={content.title}

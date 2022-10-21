@@ -7,6 +7,7 @@ import CaledarView from './CaledarView';
 import LogContext from '../contexts/LogContext';
 import {format} from 'date-fns';
 import FeedList from './FeedList';
+import {useMemo} from 'react';
 
 type BottomTabNavigateTypes = BottomTabNavigationProp<
   BottomTabParamList,
@@ -21,11 +22,16 @@ const CalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState(
     format(new Date(), 'yyyy-MM-dd'),
   );
+  // const data: {[index: string]: any} = logs.slice();
 
-  const markedDates = logs.reduce((prev, cur) => {
-    const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
-    return {...prev, [formattedDate]: {marked: true}};
-  }, {});
+  const markedDates = useMemo(
+    () =>
+      logs.reduce((prev, cur) => {
+        const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
+        return {...prev, [formattedDate]: {marked: true}};
+      }, {}),
+    [logs],
+  );
 
   const {block} = styled;
 
@@ -49,6 +55,8 @@ const CalendarScreen = () => {
   );
 };
 
-const styled = StyleSheet.create({block: {flex: 1}});
+const styled = StyleSheet.create({
+  block: {flex: 1},
+});
 
 export default CalendarScreen;

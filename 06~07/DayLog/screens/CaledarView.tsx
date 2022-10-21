@@ -18,15 +18,17 @@ const CaledarView = ({
   const markedSelectedDate = {
     ...markedDates,
     [selectedDate]: {
+      ...markedDates[selectedDate],
       selected: true,
-      marked: markedDates[selectedDate]?.marked,
     },
   };
-
+  console.log(markedSelectedDate);
   return (
     <Calendar
+      initialDate={selectedDate}
       style={styled.calendar}
       markedDates={markedSelectedDate}
+      date={selectedDate}
       onDayPress={e => setSelectedDate(e.dateString)}
       theme={{
         selectedDayBackgroundColor: '#009688',

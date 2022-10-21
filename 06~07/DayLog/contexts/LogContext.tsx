@@ -1,4 +1,4 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useMemo, useState} from 'react';
 import {Omit} from 'react-native';
 import {v4 as uuidv4} from 'uuid';
 
@@ -53,17 +53,54 @@ export const LogContextProvider = ({children}: ProviderProps) => {
       date: new Date().toISOString(),
       title: 'test4',
     },
+    {
+      id: uuidv4(),
+      body: '테스트 바디5',
+      date: new Date().toISOString(),
+      title: 'test5',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디6',
+      date: new Date().toISOString(),
+      title: 'test6',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디7',
+      date: new Date().toISOString(),
+      title: 'test7',
+    },
+    {
+      id: uuidv4(),
+      body: '테스트 바디8',
+      date: new Date().toISOString(),
+      title: 'test8',
+    },
   ]);
+
+  const sortLogs = useMemo(
+    () =>
+      logs.sort(({date}, {date: date1}) => {
+        if (date > date1) {
+          return -1;
+        } else if (date1 > date) {
+          return 1;
+        }
+        return 0;
+      }),
+    [logs],
+  );
 
   const onCreate = (props: Omit<LogTypes, 'id'>) => {
     setLogs(logs.concat({id: uuidv4(), ...props}));
   };
   const onDelete = ({id}: Pick<LogTypes, 'id'>) => {
-    setLogs(logs.filter(item => item.id !== id));
+    setLogs(sortLogs.filter(item => item.id !== id));
   };
   const onModify = (props: LogTypes) => {
     setLogs(
-      logs.map(item => {
+      sortLogs.map(item => {
         if (item.id === props.id) {
           return {...props};
         }
@@ -74,7 +111,9 @@ export const LogContextProvider = ({children}: ProviderProps) => {
 
   const Provider = LogContext.Provider;
   return (
-    <Provider value={{logs, onCreate, onDelete, onModify}}>{children}</Provider>
+    <Provider value={{logs: sortLogs, onCreate, onDelete, onModify}}>
+      {children}
+    </Provider>
   );
 };
 
