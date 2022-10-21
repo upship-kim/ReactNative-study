@@ -82,7 +82,7 @@ const WriteScreen = () => {
           onSave={onSave}
           selectedDate={date}
           goBack={goBack}
-          onAskRemove={onAskRemove}
+          onAskRemove={params ? onAskRemove : null}
           onChangeDate={onChangeDate}
         />
         <WriteEditor

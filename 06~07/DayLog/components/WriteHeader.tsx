@@ -7,7 +7,7 @@ import {ko} from 'date-fns/locale';
 interface WriteHeaderProps {
   onSave: () => void;
   goBack: () => void;
-  onAskRemove: () => void;
+  onAskRemove: (() => void) | null;
   onChangeDate: (date: Date) => void;
   selectedDate: Date;
 }
@@ -58,12 +58,14 @@ const WriteHeader = ({
           </Pressable>
         </View>
         <View style={blockRight}>
-          <IconButton
-            name="delete-forever"
-            hasMarginRight
-            onPress={onAskRemove}
-            color="#ef5350"
-          />
+          {onAskRemove && (
+            <IconButton
+              name="delete-forever"
+              hasMarginRight
+              onPress={onAskRemove}
+              color="#ef5350"
+            />
+          )}
           <IconButton name="check" onPress={onSave} color="#009688" />
         </View>
       </View>

@@ -1,22 +1,15 @@
-import {
-  View,
-  StyleSheet,
-  Platform,
-  Pressable,
-  Animated,
-  ViewStyle,
-} from 'react-native';
+import {StyleSheet, Platform, Pressable, Animated} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootParamList} from '../types/RootParamList';
-import {StyleProp} from 'react-native';
 
 interface ButtonProps {
   hidden: boolean;
+  forceView: boolean;
 }
 
-const FloatingWriteButton = ({hidden}: ButtonProps) => {
+const FloatingWriteButton = ({hidden, forceView}: ButtonProps) => {
   const {wrapper, button, icon} = Style;
 
   const navigate = useNavigation<NavigationProp<RootParamList, 'Main'>>();
@@ -51,7 +44,7 @@ const FloatingWriteButton = ({hidden}: ButtonProps) => {
     }),
   };
   return (
-    <Animated.View style={[wrapper, animationAction]}>
+    <Animated.View style={[wrapper, !forceView && animationAction]}>
       <Pressable
         style={({pressed}) => [
           button,

@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
 import FeedItem from './FeedListItem';
+
 interface ListProps<T> {
   logs: LogTypes[];
   onScrolledToBottom?: (isBottom: boolean) => void;

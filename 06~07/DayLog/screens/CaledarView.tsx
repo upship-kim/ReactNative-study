@@ -13,8 +13,6 @@ const CaledarView = ({
   selectedDate,
   setSelectedDate,
 }: CalendarProps) => {
-  //현재 연/월 사용하기
-
   const markedSelectedDate = {
     ...markedDates,
     [selectedDate]: {
@@ -22,7 +20,7 @@ const CaledarView = ({
       selected: true,
     },
   };
-  console.log(markedSelectedDate);
+
   return (
     <Calendar
       initialDate={selectedDate}

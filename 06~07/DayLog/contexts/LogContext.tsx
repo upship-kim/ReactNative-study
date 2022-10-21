@@ -1,6 +1,7 @@
-import React, {createContext, useMemo, useState} from 'react';
+import React, {createContext, useEffect, useMemo, useState} from 'react';
 import {Omit} from 'react-native';
 import {v4 as uuidv4} from 'uuid';
+import logsStorage from '../storage/logsStorage';
 
 type ProviderProps = {
   children: React.ReactNode;
@@ -28,69 +29,38 @@ const LogContext = createContext<DataTypes>({
 });
 
 export const LogContextProvider = ({children}: ProviderProps) => {
-  const [logs, setLogs] = useState<LogTypes[]>([
-    {
-      id: uuidv4(),
-      body: '테스트 바디1',
-      date: new Date('2022-10-01').toISOString(),
-      title: 'test1111',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디2',
-      date: new Date('2022-10-10').toISOString(),
-      title: 'test2',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디3',
-      date: new Date('2022-10-18').toISOString(),
-      title: '3test',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디4',
-      date: new Date().toISOString(),
-      title: 'test4',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디5',
-      date: new Date().toISOString(),
-      title: 'test5',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디6',
-      date: new Date().toISOString(),
-      title: 'test6',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디7',
-      date: new Date().toISOString(),
-      title: 'test7',
-    },
-    {
-      id: uuidv4(),
-      body: '테스트 바디8',
-      date: new Date().toISOString(),
-      title: 'test8',
-    },
-  ]);
+  const [logs, setLogs] = useState<LogTypes[]>([]);
 
-  const sortLogs = useMemo(
-    () =>
-      logs.sort(({date}, {date: date1}) => {
-        if (date > date1) {
-          return -1;
-        } else if (date1 > date) {
-          return 1;
-        }
-        return 0;
-      }),
-    [logs],
-  );
+  const {getLogs, setLogs: saveLogs} = logsStorage();
+
+  useEffect(() => {
+    (async () => {
+      const response = await getLogs();
+      setLogs(response);
+    })();
+    return () => {};
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await saveLogs(logs);
+    })();
+    return () => {};
+  }, [logs]);
+
+  const sortLogs =
+    useMemo(
+      () =>
+        logs.sort(({date}, {date: date1}) => {
+          if (date > date1) {
+            return -1;
+          } else if (date1 > date) {
+            return 1;
+          }
+          return 0;
+        }),
+      [logs],
+    ) ?? [];
 
   const onCreate = (props: Omit<LogTypes, 'id'>) => {
     setLogs(logs.concat({id: uuidv4(), ...props}));
