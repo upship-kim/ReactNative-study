@@ -1,30 +1,33 @@
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, {SetStateAction} from 'react';
 import {Calendar} from 'react-native-calendars';
 
 interface CalendarProps {
   markedDates: {[index: string]: {marked: boolean}};
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<SetStateAction<string>>;
 }
 
-const CaledarView = ({markedDates}: CalendarProps) => {
+const CaledarView = ({
+  markedDates,
+  selectedDate,
+  setSelectedDate,
+}: CalendarProps) => {
   //현재 연/월 사용하기
 
-  //   const markedDates = {
-  //     '2022-10-19': {
-  //       marked: true,
-  //       dotColor: 'orange',
-  //     },
-  //     '2022-10-21': {
-  //       marked: true,
-  //     },
-  //     '2022-10-23': {
-  //       marked: true,
-  //     },
-  //   };
+  const markedSelectedDate = {
+    ...markedDates,
+    [selectedDate]: {
+      selected: true,
+      marked: markedDates[selectedDate]?.marked,
+    },
+  };
+
   return (
     <Calendar
       style={styled.calendar}
-      markedDates={markedDates}
+      markedDates={markedSelectedDate}
+      onDayPress={e => setSelectedDate(e.dateString)}
       theme={{
         selectedDayBackgroundColor: '#009688',
         arrowColor: '#009688',

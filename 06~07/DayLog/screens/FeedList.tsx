@@ -8,12 +8,20 @@ import {
 import React from 'react';
 import {LogTypes} from '../contexts/LogContext';
 import FeedItem from './FeedListItem';
-interface ListProps {
+interface ListProps<T> {
   logs: LogTypes[];
   onScrolledToBottom?: (isBottom: boolean) => void;
+  ListHeaderComponent?: React.ReactElement<
+    T,
+    string | React.JSXElementConstructor<T>
+  >;
 }
 
-const FeedList = ({logs, onScrolledToBottom}: ListProps) => {
+const FeedList = <T,>({
+  logs,
+  onScrolledToBottom,
+  ListHeaderComponent,
+}: ListProps<T>) => {
   const {block, seperator} = styled;
 
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -35,6 +43,7 @@ const FeedList = ({logs, onScrolledToBottom}: ListProps) => {
       keyExtractor={({id}) => id}
       style={block}
       onScroll={onScroll}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 };

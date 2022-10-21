@@ -6,6 +6,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import CaledarView from './CaledarView';
 import LogContext from '../contexts/LogContext';
 import {format} from 'date-fns';
+import FeedList from './FeedList';
 
 type BottomTabNavigateTypes = BottomTabNavigationProp<
   BottomTabParamList,
@@ -17,21 +18,37 @@ const CalendarScreen = () => {
   const navigate = useNavigation<BottomTabNavigateTypes>();
   const route = useRoute<BottomTabRouteTypes>();
   const {logs} = useContext(LogContext);
+  const [selectedDate, setSelectedDate] = useState(
+    format(new Date(), 'yyyy-MM-dd'),
+  );
 
   const markedDates = logs.reduce((prev, cur) => {
     const formattedDate = format(new Date(cur.date), 'yyyy-MM-dd');
-
     return {...prev, [formattedDate]: {marked: true}};
   }, {});
-  console.log(markedDates);
+
   const {block} = styled;
+
+  const filteredLogs = logs.filter(
+    item => format(new Date(item.date), 'yyyy-MM-dd') === selectedDate,
+  );
+
   return (
     <View style={block}>
-      <CaledarView markedDates={markedDates} />
+      <FeedList
+        logs={filteredLogs}
+        ListHeaderComponent={
+          <CaledarView
+            markedDates={markedDates}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        }
+      />
     </View>
   );
 };
 
-const styled = StyleSheet.create({block: {}});
+const styled = StyleSheet.create({block: {flex: 1}});
 
 export default CalendarScreen;
