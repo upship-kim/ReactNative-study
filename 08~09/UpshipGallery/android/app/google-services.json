@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "859851683410",
+    "project_id": "upship-gallery",
+    "storage_bucket": "upship-gallery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859851683410:android:2159e89138b7118d74518b",
+        "android_client_info": {
+          "package_name": "com.upshipgallery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859851683410-t7sl3nhkrbcpogs8918jup4e06p4a8hq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.upshipgallery",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "859851683410-87nhod9hvbipvr1t6vt829rpksqq2j6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD4vJc_LAAQN13PrcVGoPRIHpFMTBuDqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859851683410-87nhod9hvbipvr1t6vt829rpksqq2j6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
