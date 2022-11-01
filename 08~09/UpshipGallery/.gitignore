@@ -63,5 +63,5 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 
-/ios/UpshipGallery/GoogleService-info.plist
-/android/app/google-services.json
+ios/UpshipGallery/GoogleService-info.plist
+android/app/google-services.json
