@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>859851683410-scq3kqm26hie7erdhsrcv540ctdfnume.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.859851683410-scq3kqm26hie7erdhsrcv540ctdfnume</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>859851683410-t7sl3nhkrbcpogs8918jup4e06p4a8hq.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA62FmFl1R0ROo2BFPmKLU4ja-SMggatMg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>859851683410</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.UpshipGallery</string>
+	<key>PROJECT_ID</key>
+	<string>upship-gallery</string>
+	<key>STORAGE_BUCKET</key>
+	<string>upship-gallery.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:859851683410:ios:934d0cb3f679359874518b</string>
+</dict>
+</plist>
