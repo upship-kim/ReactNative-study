@@ -1,4 +1,3 @@
-import {View} from 'react-native';
 import {
   createContext,
   Dispatch,
@@ -12,7 +11,7 @@ export type UserType = {
   id: string;
   displayName: string | null;
   photoURL: string | null;
-};
+} | null;
 
 type UserContextTypes = {
   user: UserType;
@@ -32,7 +31,7 @@ const UserContext = createContext<UserContextTypes>({
 export const UserContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [user, setUser] = useState<UserType>(init);
+  const [user, setUser] = useState<UserType>(null);
   return (
     <UserContext.Provider value={{user, setUser}}>
       {children}

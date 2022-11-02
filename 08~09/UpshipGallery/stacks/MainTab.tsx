@@ -7,7 +7,7 @@ import MyProfileStack from './MyProfileStack';
 const MainTab = () => {
   const Bottom = createBottomTabNavigator<MainTabParamList>();
   return (
-    <Bottom.Navigator>
+    <Bottom.Navigator screenOptions={{headerShown: false}}>
       <Bottom.Screen name="home" component={HomeStack} />
       <Bottom.Screen name="myProfile" component={MyProfileStack} />
     </Bottom.Navigator>

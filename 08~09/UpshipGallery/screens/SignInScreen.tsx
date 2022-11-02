@@ -31,7 +31,7 @@ const SignInScreen = () => {
   const [joinForm, setJoinForm] = useState<FormTypes>(initValues);
 
   const [loading, setLoading] = useState(false);
-  const {user, setUser} = useUserContext();
+  const {setUser} = useUserContext();
 
   useEffect(() => {
     return () => {
@@ -59,13 +59,11 @@ const SignInScreen = () => {
     const sendInfo = {email, password};
     setLoading(true);
     try {
-      const {user: fetchUser} = isJoin
-        ? await signUp(sendInfo)
-        : await signIn(sendInfo);
-      const response = await getUser(fetchUser.uid);
+      const {user} = isJoin ? await signUp(sendInfo) : await signIn(sendInfo);
+      const response = await getUser(user.uid);
 
       if (!response) {
-        navigation.navigate('welcome', fetchUser);
+        navigation.navigate('welcome', user);
         return;
       }
 

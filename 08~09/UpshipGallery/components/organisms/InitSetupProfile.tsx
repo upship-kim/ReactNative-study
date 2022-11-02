@@ -6,6 +6,7 @@ import {createUser} from '../../lib/users';
 import {signOut} from '../../lib/auth';
 import {useNavigation} from '@react-navigation/native';
 import {WelcomeNavigateType} from '../../types/navigateTypes';
+import {useUserContext} from '../../contexts/userContext';
 
 interface SetupProfileProps {
   //   onSubmit: () => void;
@@ -15,14 +16,20 @@ interface SetupProfileProps {
 const InitSetupProfile = ({uid}: SetupProfileProps) => {
   const {picture, buttons} = styled;
   const navigate = useNavigation<WelcomeNavigateType>();
+  const {setUser} = useUserContext();
 
+  const [photoURL, setPhotoURL] = useState(null);
   const [displayName, setDisplayName] = useState('');
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     try {
-      const repsonse = await createUser({displayName, id: uid, photoURL: null});
-      console.log(repsonse);
-    } catch (e) {}
+      const userInfo = {displayName, id: uid, photoURL};
+      createUser(userInfo);
+      setUser(userInfo);
+      navigate.replace('main');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const onCancel = () => {
