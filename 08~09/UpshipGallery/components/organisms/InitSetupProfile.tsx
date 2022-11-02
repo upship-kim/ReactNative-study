@@ -1,4 +1,11 @@
-import {View, StyleSheet} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Platform,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState} from 'react';
 import Button from '../atoms/Button';
 import Input from '../atoms/Input';
@@ -7,9 +14,13 @@ import {signOut} from '../../lib/auth';
 import {useNavigation} from '@react-navigation/native';
 import {WelcomeNavigateType} from '../../types/navigateTypes';
 import {useUserContext} from '../../contexts/userContext';
+import {
+  launchImageLibrary,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
 
 interface SetupProfileProps {
-  //   onSubmit: () => void;
   uid: string;
 }
 
@@ -18,17 +29,44 @@ const InitSetupProfile = ({uid}: SetupProfileProps) => {
   const navigate = useNavigation<WelcomeNavigateType>();
   const {setUser} = useUserContext();
 
-  const [photoURL, setPhotoURL] = useState(null);
+  const [photo, setPhoto] = useState<ImagePickerResponse | null>(null);
   const [displayName, setDisplayName] = useState('');
+  const [loading, setLoading] = useState(false);
+  const onSubmit = async () => {
+    setLoading(true);
+    let photoURL = null;
+    if (!photo?.assets) {
+      return;
+    }
 
-  const onSubmit = () => {
     try {
-      const userInfo = {displayName, id: uid, photoURL};
+      const [asset] = photo.assets;
+      const extension = asset?.fileName?.split('.').pop();
+
+      const reference = storage().ref(`/profile/${uid}.${extension}`);
+
+      if (Platform.OS === 'android') {
+        await reference.putString(asset.base64 ?? '', 'base64', {
+          contentType: asset.type,
+        });
+      } else {
+        const response = await reference.putFile(asset.uri ?? '');
+        console.log(response);
+      }
+      photoURL = photo ? await reference.getDownloadURL() : null;
+      console.log(photoURL);
+      const userInfo = {
+        displayName,
+        id: uid,
+        photoURL,
+      };
       createUser(userInfo);
       setUser(userInfo);
       navigate.replace('main');
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,9 +75,31 @@ const InitSetupProfile = ({uid}: SetupProfileProps) => {
     navigate.replace('signIn', {isJoin: false});
   };
 
+  const onSelectPicture = async () => {
+    const response = await launchImageLibrary({
+      mediaType: 'photo',
+      quality: 1,
+      selectionLimit: 1,
+      maxHeight: 512,
+      maxWidth: 512,
+      includeBase64: Platform.OS === 'android',
+    });
+    if (response.didCancel) {
+      return;
+    }
+    setPhoto(response);
+    console.log(response);
+  };
+
   return (
     <>
-      <View style={picture} />
+      <Pressable onPress={onSelectPicture}>
+        {photo?.assets ? (
+          <Image style={picture} source={{uri: photo?.assets[0].uri}} />
+        ) : (
+          <View style={picture} />
+        )}
+      </Pressable>
       <Input
         hasMarginTop
         placeholder="닉네임"
@@ -47,10 +107,14 @@ const InitSetupProfile = ({uid}: SetupProfileProps) => {
         value={displayName}
         onChangeText={setDisplayName}
       />
-      <View style={buttons}>
-        <Button buttonText="다음" hasMarginBottom onPress={onSubmit} />
-        <Button buttonText="취소" isPrimry={false} onPress={onCancel} />
-      </View>
+      {loading ? (
+        <ActivityIndicator size={32} color="#6200ee" />
+      ) : (
+        <View style={buttons}>
+          <Button buttonText="다음" hasMarginBottom onPress={onSubmit} />
+          <Button buttonText="취소" isPrimry={false} onPress={onCancel} />
+        </View>
+      )}
     </>
   );
 };
