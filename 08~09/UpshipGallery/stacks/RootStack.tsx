@@ -12,7 +12,7 @@ import MainTab from './MainTab';
 const RootStack = () => {
   const Root = createNativeStackNavigator<RootParamList>();
   return (
-    <Root.Navigator initialRouteName="signIn">
+    <Root.Navigator initialRouteName="welcome">
       <Root.Screen name="main" component={MainTab} />
       <Root.Screen name="modify" component={ModifyScreen} />
       <Root.Screen name="setting" component={SettingScreen} />
@@ -23,7 +23,16 @@ const RootStack = () => {
         options={{headerShown: false}}
       />
       <Root.Screen name="upload" component={UploadScreen} />
-      <Root.Screen name="welcome" component={WelcomeScreen} />
+      <Root.Screen
+        name="welcome"
+        component={WelcomeScreen}
+        options={{headerShown: false}}
+        initialParams={{
+          uid: 'asdfasdfkasdfasf',
+          email: 'tkdqook@gmail.com',
+          displayName: 'd',
+        }}
+      />
     </Root.Navigator>
   );
 };

@@ -20,9 +20,7 @@ const SignForm = ({isJoin, onSubmit, onChange, joinForm}: SignFormProps) => {
         hasMarginBottom
         returnKeyType="next"
         onSubmitEditing={() => passwordRef.current?.focus()}
-        autoCapitalize="none"
         autoFocus
-        autoCorrect={false}
         textContentType="emailAddress"
         keyboardType="email-address"
         placeholder="아이디 입력"
@@ -32,8 +30,6 @@ const SignForm = ({isJoin, onSubmit, onChange, joinForm}: SignFormProps) => {
       <Input
         hasMarginBottom
         returnKeyType={isJoin ? 'next' : 'done'}
-        autoCapitalize="none"
-        autoCorrect={false}
         secureTextEntry
         placeholder="비밀번호 입력"
         textContentType="password"
@@ -47,8 +43,6 @@ const SignForm = ({isJoin, onSubmit, onChange, joinForm}: SignFormProps) => {
       {isJoin && (
         <Input
           returnKeyType="done"
-          autoCapitalize="none"
-          autoCorrect={false}
           secureTextEntry
           placeholder="비밀번호 확인"
           textContentType="password"

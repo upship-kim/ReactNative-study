@@ -1,10 +1,12 @@
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+
 export type RootParamList = {
   main: undefined;
   upload: undefined;
   modify: undefined;
   setting: undefined;
   signIn: {isJoin: boolean};
-  welcome: undefined;
+  welcome: FirebaseAuthTypes.User;
 };
 
 export type MainTabParamList = {

@@ -1,11 +1,4 @@
-import {
-  Text,
-  StyleSheet,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-} from 'react-native';
+import {Text, StyleSheet, Alert, Keyboard} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation, useRoute} from '@react-navigation/native';
@@ -14,6 +7,7 @@ import SignForm from '../components/molecules/SignForm';
 import SignButtons from '../components/molecules/SignButtons';
 import {signIn, signUp, FirebaseErrorTypes} from '../lib/auth';
 import {responseMsg} from '../constant/sign';
+import KeyboardAvoiding from '../components/atoms/KeyboardAvoiding';
 
 export type FormTypes = {
   email: string;
@@ -24,7 +18,7 @@ export type FormTypes = {
 const initValues = {email: '', password: '', confirmPassword: ''};
 
 const SignInScreen = () => {
-  const {container, titleText, keyboardAvoid} = styled;
+  const {container, titleText} = styled;
 
   const navigation = useNavigation<SignInNavigateType>();
 
@@ -33,11 +27,14 @@ const SignInScreen = () => {
   } = useRoute<SignInRouteType>();
 
   const [joinForm, setJoinForm] = useState<FormTypes>(initValues);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setJoinForm(initValues);
 
-    return () => {};
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setJoinForm(initValues);
+      Keyboard.dismiss();
+    };
   }, [isJoin]);
 
   const onChange = (value: string, key: string) => {
@@ -60,7 +57,7 @@ const SignInScreen = () => {
     setLoading(true);
     try {
       const {user} = isJoin ? await signUp(sendInfo) : await signIn(sendInfo);
-      console.log(user);
+      navigation.navigate('welcome', user);
     } catch (error) {
       if (error) {
         const errorCode = (error as FirebaseErrorTypes).code;
@@ -78,9 +75,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={keyboardAvoid}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoiding>
       <SafeAreaView style={container}>
         <Text style={titleText}>Upship Gallery</Text>
         <SignForm
@@ -97,7 +92,7 @@ const SignInScreen = () => {
           loading={loading}
         />
       </SafeAreaView>
-    </KeyboardAvoidingView>
+    </KeyboardAvoiding>
   );
 };
 
@@ -112,9 +107,5 @@ const styled = StyleSheet.create({
   titleText: {
     fontSize: 26,
     fontWeight: '700',
-  },
-
-  keyboardAvoid: {
-    flex: 1,
   },
 });

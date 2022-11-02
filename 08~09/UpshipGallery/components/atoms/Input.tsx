@@ -16,7 +16,15 @@ const Input = forwardRef(
       ? {marginBottom: 10}
       : {};
     const InputStyle = [container, hasMargin];
-    return <TextInput style={InputStyle} {...rest} ref={ref} />;
+    return (
+      <TextInput
+        style={InputStyle}
+        autoCapitalize="none"
+        autoCorrect={false}
+        {...rest}
+        ref={ref}
+      />
+    );
   },
 );
 
@@ -26,6 +34,7 @@ const styled = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     height: 38,
+    width: '100%',
     borderColor: '#e3e3e3',
     borderWidth: 1,
     borderRadius: 4,
