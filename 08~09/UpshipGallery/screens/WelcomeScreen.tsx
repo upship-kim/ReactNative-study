@@ -8,21 +8,21 @@ import InitSetupProfile from '../components/organisms/InitSetupProfile';
 
 const WelcomeScreen = () => {
   const {
-    params: {uid, displayName, email},
+    params: {uid, email},
   } = useRoute<WelcomeRouteType>();
 
   const {container, welcomeTitle, subTitle} = styled;
 
-  const onSubmit = () => {
-    Alert.alert('submit');
-  };
+  //   const onSubmit = () => {
+  //     Alert.alert('submit');
+  //   };
 
   return (
     <KeyboardAvoiding>
       <SafeAreaView style={container}>
         <Text style={welcomeTitle}>환영합니다!</Text>
         <Text style={subTitle}>프로필을 설정하세요.</Text>
-        <InitSetupProfile onSubmit={onSubmit} />
+        <InitSetupProfile uid={uid} />
       </SafeAreaView>
     </KeyboardAvoiding>
   );

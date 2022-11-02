@@ -6,8 +6,10 @@ import {SignInNavigateType, SignInRouteType} from '../types/navigateTypes';
 import SignForm from '../components/molecules/SignForm';
 import SignButtons from '../components/molecules/SignButtons';
 import {signIn, signUp, FirebaseErrorTypes} from '../lib/auth';
+import {getUser} from '../lib/users';
 import {responseMsg} from '../constant/sign';
 import KeyboardAvoiding from '../components/atoms/KeyboardAvoiding';
+import {useUserContext} from '../contexts/userContext';
 
 export type FormTypes = {
   email: string;
@@ -29,6 +31,7 @@ const SignInScreen = () => {
   const [joinForm, setJoinForm] = useState<FormTypes>(initValues);
 
   const [loading, setLoading] = useState(false);
+  const {user, setUser} = useUserContext();
 
   useEffect(() => {
     return () => {
@@ -56,8 +59,23 @@ const SignInScreen = () => {
     const sendInfo = {email, password};
     setLoading(true);
     try {
-      const {user} = isJoin ? await signUp(sendInfo) : await signIn(sendInfo);
-      navigation.navigate('welcome', user);
+      const {user: fetchUser} = isJoin
+        ? await signUp(sendInfo)
+        : await signIn(sendInfo);
+      const response = await getUser(fetchUser.uid);
+
+      if (!response) {
+        navigation.navigate('welcome', fetchUser);
+        return;
+      }
+
+      setUser({
+        id: response.id,
+        displayName: response.displayName,
+        photoURL: response.photoURL,
+      });
+
+      navigation.navigate('main');
     } catch (error) {
       if (error) {
         const errorCode = (error as FirebaseErrorTypes).code;
