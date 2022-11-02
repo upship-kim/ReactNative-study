@@ -3,7 +3,7 @@ export type RootParamList = {
   upload: undefined;
   modify: undefined;
   setting: undefined;
-  signIn: undefined;
+  signIn: {isJoin: boolean};
   welcome: undefined;
 };
 

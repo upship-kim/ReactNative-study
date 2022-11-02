@@ -19,6 +19,7 @@ const RootStack = () => {
       <Root.Screen
         name="signIn"
         component={SignInScreen}
+        initialParams={{isJoin: false}}
         options={{headerShown: false}}
       />
       <Root.Screen name="upload" component={UploadScreen} />

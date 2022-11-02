@@ -1,4 +1,8 @@
 import {NavigationProp, RouteProp} from '@react-navigation/native';
+import {
+  NativeStackScreenProps,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 import {RootParamList} from './paramListTypes';
 
 /**
@@ -6,12 +10,28 @@ import {RootParamList} from './paramListTypes';
  **/
 
 // Navigator
-export type MainNavigateType = NavigationProp<RootParamList, 'main'>;
-export type ModifyNavigateType = NavigationProp<RootParamList, 'modify'>;
-export type SettingNavigateType = NavigationProp<RootParamList, 'setting'>;
-export type SignInNavigateType = NavigationProp<RootParamList, 'signIn'>;
-export type UploadNavigateType = NavigationProp<RootParamList, 'upload'>;
-export type WelcomeNavigateType = NavigationProp<RootParamList, 'welcome'>;
+
+export type MainNavigateType = NativeStackNavigationProp<RootParamList, 'main'>;
+export type ModifyNavigateType = NativeStackNavigationProp<
+  RootParamList,
+  'modify'
+>;
+export type SettingNavigateType = NativeStackNavigationProp<
+  RootParamList,
+  'setting'
+>;
+export type SignInNavigateType = NativeStackNavigationProp<
+  RootParamList,
+  'signIn'
+>;
+export type UploadNavigateType = NativeStackNavigationProp<
+  RootParamList,
+  'upload'
+>;
+export type WelcomeNavigateType = NativeStackNavigationProp<
+  RootParamList,
+  'welcome'
+>;
 
 // Route
 export type MainRouteType = RouteProp<RootParamList, 'main'>;
