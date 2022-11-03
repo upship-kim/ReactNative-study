@@ -1,8 +1,9 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {ImagePickerResponse} from 'react-native-image-picker';
 
 export type RootParamList = {
   main: undefined;
-  upload: undefined;
+  upload: ImagePickerResponse;
   modify: undefined;
   setting: undefined;
   signIn: {isJoin: boolean};
@@ -10,8 +11,8 @@ export type RootParamList = {
 };
 
 export type MainTabParamList = {
-  home: undefined;
-  myProfile: undefined;
+  homeStack: undefined;
+  myProfileStack: undefined;
 };
 export type HomeParamList = {
   feed: undefined;

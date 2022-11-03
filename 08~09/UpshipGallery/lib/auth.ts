@@ -1,8 +1,11 @@
 import auth from '@react-native-firebase/auth';
 import {FormTypes} from '../screens/SignInScreen';
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 type SignInProps = Omit<FormTypes, 'confirmPassword'>;
-type CallbackProps = () => void;
+type CallbackProps = (
+  currentUser: FirebaseAuthTypes.User | null,
+) => Promise<void>;
 
 export interface FirebaseErrorTypes extends Error {
   code: string;

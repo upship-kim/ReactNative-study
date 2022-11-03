@@ -5,6 +5,7 @@ import MyProfileScreen from '../screens/MyProfileScreen';
 
 const MyProfileStack = () => {
   const ProfileStack = createNativeStackNavigator<MyProfileParamList>();
+
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="myProfile" component={MyProfileScreen} />
