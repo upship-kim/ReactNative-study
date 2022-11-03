@@ -61,7 +61,7 @@ const FeedScreen = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await getPosts();
+        const response = await getPosts({});
         setPosts(response);
       } catch (e) {
         console.log(e);
