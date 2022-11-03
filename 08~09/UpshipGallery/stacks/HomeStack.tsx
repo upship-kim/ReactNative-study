@@ -9,7 +9,7 @@ import FeedScreen from '../screens/FeedScreen';
 const HomeStack = () => {
   const HomeStacks = createNativeStackNavigator<HomeParamList>();
   return (
-    <HomeStacks.Navigator screenOptions={{headerShown: false}}>
+    <HomeStacks.Navigator>
       <HomeStacks.Screen name="feed" component={FeedScreen} />
       <HomeStacks.Screen name="post" component={PostScreen} />
       <HomeStacks.Screen name="profile" component={ProfileScreen} />

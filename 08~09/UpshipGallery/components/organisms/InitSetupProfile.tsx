@@ -95,7 +95,14 @@ const InitSetupProfile = ({uid}: SetupProfileProps) => {
     <>
       <Pressable onPress={onSelectPicture}>
         {photo?.assets ? (
-          <Image style={picture} source={{uri: photo?.assets[0].uri}} />
+          <Image
+            style={picture}
+            source={
+              photo
+                ? {uri: photo?.assets[0].uri}
+                : require('../../assets/user.png')
+            }
+          />
         ) : (
           <View style={picture} />
         )}

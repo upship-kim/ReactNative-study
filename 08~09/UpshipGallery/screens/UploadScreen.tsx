@@ -52,7 +52,7 @@ const UploadScreen = () => {
 
       await createPost({photoURL, user, description});
     } catch (e) {}
-  }, [description, params.assets, user]);
+  }, [description, navigate, params.assets, user]);
 
   useEffect(() => {
     const didShow = Keyboard.addListener('keyboardDidShow', () => {
