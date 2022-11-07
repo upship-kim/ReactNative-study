@@ -12,10 +12,18 @@ import {
   MyProfilePostNavigateType,
 } from '../../types/navigateTypes';
 import {MainTabParamList} from '../../types/paramListTypes';
+import {useUserContext} from '../../contexts/userContext';
+import Icon from '../atoms/Icon';
 
 interface PostCardProps extends PostTypes {}
 
-const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
+const PostCard = ({
+  createdAt,
+  description,
+  photoURL,
+  user,
+  id,
+}: PostCardProps) => {
   const {
     container,
     head,
@@ -36,6 +44,7 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
   const routeName = useNavigationState<MainTabParamList, unknown>(
     state => state.routeNames,
   );
+  const {user: me} = useUserContext();
   const isMyProfilePost = (routeName as string[]).includes('myProfile');
 
   const navigation = useNavigation<MergeNavigationType>();
@@ -53,6 +62,7 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
         : new Date().toLocaleString('ko'),
     [createdAt.seconds],
   );
+  const isMe = me && user ? me.id === user.id : false;
 
   const onMoveProfile = () => {
     if (!user?.displayName || !user.id) {
@@ -66,6 +76,11 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
       userId: user.id,
     });
   };
+
+  const onSettingPost = (contentId: string) => {
+    console.log('setting', contentId);
+  };
+
   return (
     <View style={container}>
       <View style={head}>
@@ -76,6 +91,11 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
           />
           <Text style={userText}>{user?.displayName}</Text>
         </Pressable>
+        {isMe && (
+          <Pressable hitSlop={8} onPress={() => onSettingPost(id)}>
+            <Icon name="more-vert" />
+          </Pressable>
+        )}
       </View>
       <Image style={image} source={{uri: photoURL ?? ''}} />
       <View style={contents}>
@@ -95,6 +115,8 @@ const styled = StyleSheet.create({
   head: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 10,
   },
   profile: {
     flexDirection: 'row',
