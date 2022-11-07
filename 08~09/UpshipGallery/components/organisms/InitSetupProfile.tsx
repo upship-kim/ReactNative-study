@@ -1,11 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  Platform,
-  Image,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, Pressable, Platform, Image} from 'react-native';
 import React, {useState} from 'react';
 import Button from '../atoms/Button';
 import Input from '../atoms/Input';
@@ -19,6 +12,8 @@ import {
   ImagePickerResponse,
 } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
+import Loading from '../atoms/Loading';
+import Avatar from '../atoms/Avatar';
 
 interface SetupProfileProps {
   uid: string;
@@ -95,13 +90,10 @@ const InitSetupProfile = ({uid}: SetupProfileProps) => {
     <>
       <Pressable onPress={onSelectPicture}>
         {photo?.assets ? (
-          <Image
+          <Avatar
             style={picture}
-            source={
-              photo
-                ? {uri: photo?.assets[0].uri}
-                : require('../../assets/user.png')
-            }
+            source={photo?.assets[0].uri ? {uri: photo?.assets[0].uri} : null}
+            size={128}
           />
         ) : (
           <View style={picture} />
@@ -115,7 +107,7 @@ const InitSetupProfile = ({uid}: SetupProfileProps) => {
         onChangeText={setDisplayName}
       />
       {loading ? (
-        <ActivityIndicator size={32} color="#6200ee" />
+        <Loading />
       ) : (
         <View style={buttons}>
           <Button buttonText="다음" hasMarginBottom onPress={onSubmit} />

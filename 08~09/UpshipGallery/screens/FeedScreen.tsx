@@ -17,6 +17,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import Loading from '../components/atoms/Loading';
 
 const FeedScreen = () => {
   const {user} = useUserContext();
@@ -79,11 +80,7 @@ const FeedScreen = () => {
       contentContainerStyle={container}
       onEndReached={onLoadMore}
       onEndReachedThreshold={0.75}
-      ListEmptyComponent={
-        !noMorePost ? (
-          <ActivityIndicator style={spinner} size={32} color="#6200ee" />
-        ) : null
-      }
+      ListEmptyComponent={!noMorePost ? <Loading style={spinner} /> : null}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }

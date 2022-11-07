@@ -1,12 +1,21 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {ProfileNavigateType, ProfileRouteType} from '../types/navigateTypes';
+import Profile from '../components/organisms/Profile';
 
 const ProfileScreen = () => {
-  return (
-    <View>
-      <Text>ProfileScreen</Text>
-    </View>
-  );
+  const route = useRoute<ProfileRouteType>();
+  const navigation = useNavigation<ProfileNavigateType>();
+  const {displayName, userId} = route.params ?? {};
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: displayName,
+    });
+    return () => {};
+  }, [displayName, navigation]);
+
+  return <Profile userId={userId ?? ''} />;
 };
 
 export default ProfileScreen;

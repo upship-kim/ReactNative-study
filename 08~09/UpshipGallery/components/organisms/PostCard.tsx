@@ -1,16 +1,13 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React, {useMemo} from 'react';
 import {PostTypes} from '../../lib/posts';
+import Avatar from '../atoms/Avatar';
+import {useNavigation} from '@react-navigation/native';
+import {PostNavigateType} from '../../types/navigateTypes';
 
 interface PostCardProps extends PostTypes {}
 
-const PostCard = ({
-  createdAt,
-  description,
-  id,
-  photoURL,
-  user,
-}: PostCardProps) => {
+const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
   const {
     container,
     head,
@@ -22,7 +19,7 @@ const PostCard = ({
     descriptText,
     dateText,
   } = styled;
-
+  const navigation = useNavigation<PostNavigateType>();
   const convertDate = useMemo(
     () =>
       createdAt.seconds
@@ -36,15 +33,22 @@ const PostCard = ({
         : new Date().toLocaleString('ko'),
     [createdAt.seconds],
   );
+
+  const onMoveProfile = () => {
+    if (!user?.displayName || !user.id) return;
+
+    navigation.navigate('profile', {
+      displayName: user.displayName,
+      userId: user.id,
+    });
+  };
   return (
     <View style={container}>
       <View style={head}>
-        <Pressable style={profile}>
-          <Image
+        <Pressable style={profile} onPress={onMoveProfile}>
+          <Avatar
             style={profileImage}
-            source={
-              user ? {uri: user.photoURL} : require('../../assets/user.png')
-            }
+            source={user?.photoURL ? {uri: user.photoURL} : null}
           />
           <Text style={userText}>{user?.displayName}</Text>
         </Pressable>

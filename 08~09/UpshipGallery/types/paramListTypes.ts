@@ -17,7 +17,7 @@ export type MainTabParamList = {
 export type HomeParamList = {
   feed: undefined;
   post: undefined;
-  profile: undefined;
+  profile: {userId: string; displayName: string} | undefined;
 };
 export type MyProfileParamList = {
   myProfile: undefined;

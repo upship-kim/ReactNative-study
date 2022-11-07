@@ -1,7 +1,8 @@
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {FormTypes} from '../../screens/SignInScreen';
 import Button from '../atoms/Button';
+import Loading from '../atoms/Loading';
 
 interface SignFormProps {
   isJoin: boolean;
@@ -22,7 +23,7 @@ const SignButtons = ({
   if (loading) {
     return (
       <View style={styled.container}>
-        <ActivityIndicator size={32} color="#6200ee" />
+        <Loading />
       </View>
     );
   }
