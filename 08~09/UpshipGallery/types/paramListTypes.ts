@@ -22,4 +22,5 @@ export type HomeParamList = {
 };
 export type MyProfileParamList = {
   myProfile: undefined;
+  post: PostTypes;
 };

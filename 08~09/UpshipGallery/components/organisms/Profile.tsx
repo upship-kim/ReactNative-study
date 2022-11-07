@@ -15,10 +15,11 @@ interface ProfileProps {
 
 const Profile = ({userId}: ProfileProps) => {
   const [user, setUser] = useState<UserType>(null);
-  //   const [posts, setPosts] = useState<PostTypes[]>([]);
+
   const {spinner, avatar, block, userInfo, username} = styled;
   const {noMorePost, onLoadMore, onRefresh, posts, refreshing} =
     usePosts(userId);
+
   useEffect(() => {
     (async () => {
       try {

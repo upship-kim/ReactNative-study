@@ -54,3 +54,27 @@
 - [스택오버플로우 관련 글](https://stackoverflow.com/questions/63771070/use-of-undeclared-identifier-firapp)
 - [애플 공식 문서](https://developer.apple.com/documentation/xcode/understanding-the-exception-types-in-a-crash-report#EXCCRASH-SIGABRT)
 - [react-native-firebase 의 git issue](https://github.com/invertase/react-native-firebase/issues/247#issuecomment-315131432)
+
+### 2. useNavigation hook의 동적 활용
+
+**목표**
+
+- 하단 BottomTab 내에 `home` 과 `myProfile` 로 나누어 지는데 두 가지 탭에서 모두
+  Profile 화면을 재사용한다.
+- home에서는 나뿐 아니라 다른 유저의 프로필을 확인할 수 있어야하고,
+- myProfile 에서는 나의 프로필을 확인할 수 있어야 한다.
+- 하지만 두 탭에서 Profile 화면을 열때에 navigation Type을 다르게 지정하고 열어야 각각 탭에서 profile화면에 도달하였을 때 올바르게 해당 탭에 focusing이 된다.
+
+**1) 해결방안**
+
+- 처음 typescript의 `유틸리티 타입`을 활용하여 타입을 분기처리하려 하였다.
+- `HomePostNavigateType` 과 `MyProfilePostNavigateType` 을 정의해두고 MainTab navigate의 RouteName 을 파악/분기처리하여 위 두 타입을 나누려 하였다.
+- 하지만 유틸리티 타입은 제네릭 타입에 따라 동적으로 분기처리는 가능하지만 RouteName 디테일한 값에 따라 분기처리가 어려웠고, 코드를 생산할수록 가독성이 떨어졌다.
+  (활용 Utility Types: Record, Extract, Pick, T extends boolean ? Home~ : MyProfile~ )
+
+**2) 해결방안**
+
+- useNavigation hook을 제공하는 `@react-navigation/native` 의 공식 문서를 확인하였고,
+  타입스크립트에 대응하는 타입들이 무엇이 있는지 확인하였다.
+- 그리고 [공식 문서](https://reactnavigation.org/docs/typescript/#organizing-types) 를 통해 `CompositeNavigationProp` 이란 타입의 역할을 확인하였고, 간결하게 사용할 수 있었다.
+- Stack이 다른 두 navigate의 타입을 병합하여 간편하게 이동할 수 있는 타입을 제공한다.

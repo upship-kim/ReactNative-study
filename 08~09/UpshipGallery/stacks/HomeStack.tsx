@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeParamList} from '../types/paramListTypes';
@@ -11,7 +10,11 @@ const HomeStack = () => {
   return (
     <HomeStacks.Navigator>
       <HomeStacks.Screen name="feed" component={FeedScreen} />
-      <HomeStacks.Screen name="post" component={PostScreen} />
+      <HomeStacks.Screen
+        name="post"
+        component={PostScreen}
+        options={{title: '게시물'}}
+      />
       <HomeStacks.Screen name="profile" component={ProfileScreen} />
     </HomeStacks.Navigator>
   );

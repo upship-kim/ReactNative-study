@@ -1,4 +1,4 @@
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import React from 'react';
 import PostCard from '../components/organisms/PostCard';
 import {useRoute} from '@react-navigation/native';
@@ -9,14 +9,14 @@ const PostScreen = () => {
   const rest = route.params;
   const {container} = styled;
   return (
-    <View style={container}>
+    <ScrollView style={container}>
       <PostCard {...rest} />
-    </View>
+    </ScrollView>
   );
 };
 
 export default PostScreen;
 
 const styled = StyleSheet.create({
-  container: {flex: 1},
+  container: {flex: 1, paddingBottom: 40},
 });

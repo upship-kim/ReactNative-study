@@ -2,8 +2,16 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React, {useMemo} from 'react';
 import {PostTypes} from '../../lib/posts';
 import Avatar from '../atoms/Avatar';
-import {useNavigation} from '@react-navigation/native';
-import {PostNavigateType} from '../../types/navigateTypes';
+import {
+  CompositeNavigationProp,
+  useNavigation,
+  useNavigationState,
+} from '@react-navigation/native';
+import {
+  HomePostNavigateType,
+  MyProfilePostNavigateType,
+} from '../../types/navigateTypes';
+import {MainTabParamList} from '../../types/paramListTypes';
 
 interface PostCardProps extends PostTypes {}
 
@@ -19,7 +27,19 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
     descriptText,
     dateText,
   } = styled;
-  const navigation = useNavigation<PostNavigateType>();
+
+  type MergeNavigationType = CompositeNavigationProp<
+    HomePostNavigateType,
+    MyProfilePostNavigateType
+  >;
+
+  const routeName = useNavigationState<MainTabParamList, unknown>(
+    state => state.routeNames,
+  );
+  const isMyProfilePost = (routeName as string[]).includes('myProfile');
+
+  const navigation = useNavigation<MergeNavigationType>();
+
   const convertDate = useMemo(
     () =>
       createdAt.seconds
@@ -38,7 +58,9 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
     if (!user?.displayName || !user.id) {
       return;
     }
-
+    if (isMyProfilePost) {
+      navigation.navigate('myProfile');
+    }
     navigation.navigate('profile', {
       displayName: user.displayName,
       userId: user.id,

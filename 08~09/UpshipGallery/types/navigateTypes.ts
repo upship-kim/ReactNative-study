@@ -1,6 +1,11 @@
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeParamList, MainTabParamList, RootParamList} from './paramListTypes';
+import {
+  HomeParamList,
+  MainTabParamList,
+  MyProfileParamList,
+  RootParamList,
+} from './paramListTypes';
 
 /**
  *  RootStack
@@ -67,7 +72,11 @@ export type MyProfileStackRouteType = RouteProp<
 // Navigator
 
 export type FeedNavigateType = NativeStackNavigationProp<HomeParamList, 'feed'>;
-export type PostNavigateType = NativeStackNavigationProp<HomeParamList, 'post'>;
+export type HomePostNavigateType = NativeStackNavigationProp<
+  HomeParamList,
+  'post'
+>;
+
 export type ProfileNavigateType = NativeStackNavigationProp<
   HomeParamList,
   'profile'
@@ -77,3 +86,22 @@ export type ProfileNavigateType = NativeStackNavigationProp<
 export type FeedRouteType = RouteProp<HomeParamList, 'feed'>;
 export type PostRouteType = RouteProp<HomeParamList, 'post'>;
 export type ProfileRouteType = RouteProp<HomeParamList, 'profile'>;
+
+/**
+ *  MyProfileStack
+ **/
+
+// Navigator
+
+export type MyProfileNavigateType = NativeStackNavigationProp<
+  MyProfileParamList,
+  'myProfile'
+>;
+export type MyProfilePostNavigateType = NativeStackNavigationProp<
+  MyProfileParamList,
+  'post'
+>;
+
+// Route
+export type MyProfileRouteType = RouteProp<MyProfileParamList, 'myProfile'>;
+export type MyProfilePostRouteType = RouteProp<MyProfileParamList, 'post'>;
