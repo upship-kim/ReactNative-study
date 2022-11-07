@@ -35,7 +35,9 @@ const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
   );
 
   const onMoveProfile = () => {
-    if (!user?.displayName || !user.id) return;
+    if (!user?.displayName || !user.id) {
+      return;
+    }
 
     navigation.navigate('profile', {
       displayName: user.displayName,

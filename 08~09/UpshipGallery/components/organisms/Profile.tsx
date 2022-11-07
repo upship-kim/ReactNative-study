@@ -1,10 +1,13 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, Text, FlatList, StyleSheet, RefreshControl} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {UserType} from '../../contexts/userContext';
-import {getPosts, PostTypes} from '../../lib/posts';
-import {getUser} from '../../lib/users';
+import {PostTypes} from '../../lib/posts';
+
 import Loading from '../atoms/Loading';
 import Avatar from '../atoms/Avatar';
+import PostGridItem from '../molecules/PostGridItem';
+import usePosts from '../../hooks/usePosts';
+import {getUser} from '../../lib/users';
 
 interface ProfileProps {
   userId: string;
@@ -12,20 +15,17 @@ interface ProfileProps {
 
 const Profile = ({userId}: ProfileProps) => {
   const [user, setUser] = useState<UserType>(null);
-  const [posts, setPosts] = useState<PostTypes[]>([]);
+  //   const [posts, setPosts] = useState<PostTypes[]>([]);
   const {spinner, avatar, block, userInfo, username} = styled;
-
+  const {noMorePost, onLoadMore, onRefresh, posts, refreshing} =
+    usePosts(userId);
   useEffect(() => {
     (async () => {
       try {
         const fetchUser = await getUser(userId);
-        const fetchPosts = await getPosts({userId: userId});
 
         if (fetchUser) {
           setUser(fetchUser);
-        }
-        if (fetchPosts) {
-          setPosts(fetchPosts);
         }
       } catch (e) {
         console.error(e);
@@ -35,6 +35,10 @@ const Profile = ({userId}: ProfileProps) => {
     return () => {};
   }, [userId]);
 
+  const renderItem = (props: PostTypes) => {
+    return <PostGridItem post={props} />;
+  };
+
   if (!user || !posts.length) {
     return <Loading style={spinner} />;
   }
@@ -42,6 +46,7 @@ const Profile = ({userId}: ProfileProps) => {
   return (
     <FlatList
       style={block}
+      numColumns={3}
       ListHeaderComponent={
         <View style={userInfo}>
           <Avatar
@@ -53,13 +58,14 @@ const Profile = ({userId}: ProfileProps) => {
         </View>
       }
       data={posts}
-      renderItem={() => {
-        return (
-          <View>
-            <Text>asdfasdf</Text>
-          </View>
-        );
-      }}
+      keyExtractor={({id}) => id}
+      renderItem={({item}) => renderItem(item)}
+      onEndReached={onLoadMore}
+      onEndReachedThreshold={0.75}
+      ListEmptyComponent={!noMorePost ? <Loading style={spinner} /> : null}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     />
   );
 };
