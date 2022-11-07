@@ -1,3 +1,4 @@
+import {UserType} from './../contexts/userContext';
 import firstore from '@react-native-firebase/firestore';
 
 export const usersCollection = firstore().collection('users');
@@ -14,5 +15,5 @@ export function createUser({id, displayName, photoURL}: CreateUserTypes) {
 
 export async function getUser(id: string) {
   const doc = await usersCollection.doc(id).get();
-  return doc.data();
+  return doc.data() as UserType;
 }

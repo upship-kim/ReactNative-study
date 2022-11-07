@@ -1,5 +1,6 @@
 import {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {ImagePickerResponse} from 'react-native-image-picker';
+import {PostTypes} from '../lib/posts';
 
 export type RootParamList = {
   main: undefined;
@@ -16,9 +17,10 @@ export type MainTabParamList = {
 };
 export type HomeParamList = {
   feed: undefined;
-  post: undefined;
-  profile: undefined;
+  post: PostTypes;
+  profile: {userId: string; displayName: string} | undefined;
 };
 export type MyProfileParamList = {
   myProfile: undefined;
+  post: PostTypes;
 };

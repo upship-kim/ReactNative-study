@@ -1,16 +1,21 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React, {useMemo} from 'react';
 import {PostTypes} from '../../lib/posts';
+import Avatar from '../atoms/Avatar';
+import {
+  CompositeNavigationProp,
+  useNavigation,
+  useNavigationState,
+} from '@react-navigation/native';
+import {
+  HomePostNavigateType,
+  MyProfilePostNavigateType,
+} from '../../types/navigateTypes';
+import {MainTabParamList} from '../../types/paramListTypes';
 
 interface PostCardProps extends PostTypes {}
 
-const PostCard = ({
-  createdAt,
-  description,
-  id,
-  photoURL,
-  user,
-}: PostCardProps) => {
+const PostCard = ({createdAt, description, photoURL, user}: PostCardProps) => {
   const {
     container,
     head,
@@ -22,6 +27,18 @@ const PostCard = ({
     descriptText,
     dateText,
   } = styled;
+
+  type MergeNavigationType = CompositeNavigationProp<
+    HomePostNavigateType,
+    MyProfilePostNavigateType
+  >;
+
+  const routeName = useNavigationState<MainTabParamList, unknown>(
+    state => state.routeNames,
+  );
+  const isMyProfilePost = (routeName as string[]).includes('myProfile');
+
+  const navigation = useNavigation<MergeNavigationType>();
 
   const convertDate = useMemo(
     () =>
@@ -36,15 +53,26 @@ const PostCard = ({
         : new Date().toLocaleString('ko'),
     [createdAt.seconds],
   );
+
+  const onMoveProfile = () => {
+    if (!user?.displayName || !user.id) {
+      return;
+    }
+    if (isMyProfilePost) {
+      navigation.navigate('myProfile');
+    }
+    navigation.navigate('profile', {
+      displayName: user.displayName,
+      userId: user.id,
+    });
+  };
   return (
     <View style={container}>
       <View style={head}>
-        <Pressable style={profile}>
-          <Image
+        <Pressable style={profile} onPress={onMoveProfile}>
+          <Avatar
             style={profileImage}
-            source={
-              user ? {uri: user.photoURL} : require('../../assets/user.png')
-            }
+            source={user?.photoURL ? {uri: user.photoURL} : null}
           />
           <Text style={userText}>{user?.displayName}</Text>
         </Pressable>

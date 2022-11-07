@@ -26,7 +26,7 @@ export function createPost({user, description, photoURL}: CreatePostTypes) {
   });
 }
 
-export const PAGE_SIZE = 2;
+export const PAGE_SIZE = 12;
 
 type GetPostProps = Partial<{
   userId: string;
