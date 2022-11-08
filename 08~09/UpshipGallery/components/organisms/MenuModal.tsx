@@ -1,19 +1,22 @@
 import {View, Text, StyleSheet, Modal, Pressable} from 'react-native';
 import React from 'react';
 import Icon from '../atoms/Icon';
+type ActionType = {
+  icon: string;
+  text: string;
+  onPress: () => void;
+};
 
 interface UploadModeModalProps {
   onModalClose: () => void;
   modalVisible: boolean;
-  onTakePicture: () => void;
-  onSelectPicture: () => void;
+  actions: ActionType[];
 }
 
-const UploadModeModal = ({
+const MenuModal = ({
   modalVisible,
   onModalClose,
-  onSelectPicture,
-  onTakePicture,
+  actions,
 }: UploadModeModalProps) => {
   return (
     <Modal
@@ -23,21 +26,22 @@ const UploadModeModal = ({
       onRequestClose={onModalClose}>
       <Pressable style={styles.centeredView} onPress={onModalClose}>
         <View style={styles.modalView}>
-          <Pressable style={styles.button} onPress={onTakePicture}>
-            <Icon name="camera-alt" color="#757575" />
-            <Text style={styles.textStyle}>카메라로 촬영하기</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={onSelectPicture}>
-            <Icon name="photo" color="#757575" />
-            <Text style={styles.textStyle}>사진 선택하기</Text>
-          </Pressable>
+          {actions.map((action, index) => (
+            <Pressable
+              key={`${index}_${action.text}`}
+              style={styles.button}
+              onPress={action.onPress}>
+              <Icon name={action.icon} color="#757575" />
+              <Text style={styles.textStyle}>{action.text}</Text>
+            </Pressable>
+          ))}
         </View>
       </Pressable>
     </Modal>
   );
 };
 
-export default UploadModeModal;
+export default MenuModal;
 
 const styles = StyleSheet.create({
   centeredView: {

@@ -1,6 +1,14 @@
-import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
-import React, {useMemo} from 'react';
-import {PostTypes} from '../../lib/posts';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  Platform,
+  ActionSheetIOS,
+} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {deletePost, PostTypes} from '../../lib/posts';
 import Avatar from '../atoms/Avatar';
 import {
   CompositeNavigationProp,
@@ -9,11 +17,14 @@ import {
 } from '@react-navigation/native';
 import {
   HomePostNavigateType,
+  ModifyNavigateType,
   MyProfilePostNavigateType,
 } from '../../types/navigateTypes';
 import {MainTabParamList} from '../../types/paramListTypes';
 import {useUserContext} from '../../contexts/userContext';
 import Icon from '../atoms/Icon';
+import MenuModal from './MenuModal';
+import usePostAction from '../../hooks/usePostAction';
 
 interface PostCardProps extends PostTypes {}
 
@@ -38,7 +49,7 @@ const PostCard = ({
 
   type MergeNavigationType = CompositeNavigationProp<
     HomePostNavigateType,
-    MyProfilePostNavigateType
+    CompositeNavigationProp<MyProfilePostNavigateType, ModifyNavigateType>
   >;
 
   const routeName = useNavigationState<MainTabParamList, unknown>(
@@ -48,6 +59,10 @@ const PostCard = ({
   const isMyProfilePost = (routeName as string[]).includes('myProfile');
 
   const navigation = useNavigation<MergeNavigationType>();
+  const {isModalShow, onPressMore, androidActions} = usePostAction({
+    id,
+    description,
+  });
 
   const convertDate = useMemo(
     () =>
@@ -77,32 +92,37 @@ const PostCard = ({
     });
   };
 
-  const onSettingPost = (contentId: string) => {
-    console.log('setting', contentId);
-  };
-
   return (
-    <View style={container}>
-      <View style={head}>
-        <Pressable style={profile} onPress={onMoveProfile}>
-          <Avatar
-            style={profileImage}
-            source={user?.photoURL ? {uri: user.photoURL} : null}
-          />
-          <Text style={userText}>{user?.displayName}</Text>
-        </Pressable>
-        {isMe && (
-          <Pressable hitSlop={8} onPress={() => onSettingPost(id)}>
-            <Icon name="more-vert" />
+    <>
+      <View style={container}>
+        <View style={head}>
+          <Pressable style={profile} onPress={onMoveProfile}>
+            <Avatar
+              style={profileImage}
+              source={user?.photoURL ? {uri: user.photoURL} : null}
+            />
+            <Text style={userText}>{user?.displayName}</Text>
           </Pressable>
-        )}
+          {isMe && (
+            <Pressable hitSlop={8} onPress={onPressMore}>
+              <Icon name="more-vert" />
+            </Pressable>
+          )}
+        </View>
+        <Image style={image} source={{uri: photoURL ?? ''}} />
+        <View style={contents}>
+          <Text style={descriptText}>{description}</Text>
+          <Text style={dateText}>{convertDate}</Text>
+        </View>
       </View>
-      <Image style={image} source={{uri: photoURL ?? ''}} />
-      <View style={contents}>
-        <Text style={descriptText}>{description}</Text>
-        <Text style={dateText}>{convertDate}</Text>
-      </View>
-    </View>
+      {isModalShow && (
+        <MenuModal
+          modalVisible={isModalShow}
+          onModalClose={onPressMore}
+          actions={androidActions}
+        />
+      )}
+    </>
   );
 };
 

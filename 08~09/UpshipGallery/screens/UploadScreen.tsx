@@ -18,6 +18,7 @@ import IconRightButton from '../components/molecules/IconRightButton';
 import {createPost} from '../lib/posts';
 import {v4} from 'uuid';
 import {useUserContext} from '../contexts/userContext';
+import events from '../lib/event';
 
 const UploadScreen = () => {
   const navigate = useNavigation<UploadNavigateType>();
@@ -51,6 +52,7 @@ const UploadScreen = () => {
       const photoURL = await reference.getDownloadURL();
 
       await createPost({photoURL, user, description});
+      events.refresh();
     } catch (e) {}
   }, [description, navigate, params.assets, user]);
 

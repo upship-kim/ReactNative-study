@@ -1,14 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import PostCard from '../components/organisms/PostCard';
 
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import Loading from '../components/atoms/Loading';
 import usePosts from '../hooks/usePosts';
+import events from '../lib/event';
 
 const FeedScreen = () => {
   const {container, seperate, spinner} = styled;
-  const {noMorePost, onLoadMore, onRefresh, posts, refreshing} = usePosts();
+  const {noMorePost, onLoadMore, onRefresh, posts, refreshing, onRemove} =
+    usePosts();
+
+  useEffect(() => {
+    events.event.addListener('refresh', onRefresh);
+    events.event.addListener('removePost', onRemove);
+    return () => {
+      events.event.removeListener('refresh', onRefresh);
+      events.event.removeListener('removePost', onRemove);
+    };
+  }, [onRefresh, onRemove]);
 
   return (
     <FlatList
