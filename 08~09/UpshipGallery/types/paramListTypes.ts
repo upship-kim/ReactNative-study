@@ -5,7 +5,7 @@ import {PostTypes} from '../lib/posts';
 export type RootParamList = {
   main: undefined;
   upload: ImagePickerResponse;
-  modify: undefined;
+  modify: {id: string; description: string};
   setting: undefined;
   signIn: {isJoin: boolean};
   welcome: FirebaseAuthTypes.User;

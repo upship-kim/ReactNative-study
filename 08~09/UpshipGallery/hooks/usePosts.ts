@@ -1,5 +1,4 @@
-import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   getNewerPosts,
   getOlderPosts,
@@ -29,35 +28,57 @@ const usePosts = (userId?: string) => {
     }
   };
 
-  const onRefresh = async () => {
-    if (refreshing || !posts.length) {
+  const onRefresh = useCallback(async () => {
+    if (!posts || !posts.length || refreshing) {
       return;
     }
 
     try {
+      await onFetching();
       const firstPost = posts[0];
-      const newerPosts = await getNewerPosts(firstPost.id);
+      setRefreshing(true);
+      const newerPosts = await getNewerPosts(firstPost.id, userId);
+      console.log(newerPosts);
+      setRefreshing(false);
       if (!newerPosts.length) {
         return;
       }
+
       setPosts(newerPosts.concat(posts));
+    } catch (e) {
+      console.log(e);
+    }
+  }, [posts, refreshing, userId]);
+
+  const onFetching = async () => {
+    try {
+      const response = await getPosts({userId});
+      setPosts(response);
     } catch (e) {
       console.log(e);
     }
   };
 
+  const onRemove = useCallback(
+    (postId: string) => {
+      setPosts(posts.filter(item => item.id !== postId));
+    },
+    [posts],
+  );
+
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await getPosts({userId});
-        setPosts(response);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
+    onFetching();
     return () => {};
   }, []);
-  return {posts, refreshing, noMorePost, onRefresh, onLoadMore};
+  return {
+    posts,
+    refreshing,
+    noMorePost,
+    onRefresh,
+    onLoadMore,
+    onFetching,
+    onRemove,
+  };
 };
 
 export default usePosts;

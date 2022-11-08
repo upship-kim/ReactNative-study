@@ -1,6 +1,6 @@
 import {View, Text, FlatList, StyleSheet, RefreshControl} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {UserType} from '../../contexts/userContext';
+import {UserType, useUserContext} from '../../contexts/userContext';
 import {PostTypes} from '../../lib/posts';
 
 import Loading from '../atoms/Loading';
@@ -8,6 +8,7 @@ import Avatar from '../atoms/Avatar';
 import PostGridItem from '../molecules/PostGridItem';
 import usePosts from '../../hooks/usePosts';
 import {getUser} from '../../lib/users';
+import events from '../../lib/event';
 
 interface ProfileProps {
   userId: string;
@@ -17,9 +18,11 @@ const Profile = ({userId}: ProfileProps) => {
   const [user, setUser] = useState<UserType>(null);
 
   const {spinner, avatar, block, userInfo, username} = styled;
-  const {noMorePost, onLoadMore, onRefresh, posts, refreshing} =
+  const {noMorePost, onLoadMore, onRefresh, posts, refreshing, onRemove} =
     usePosts(userId);
 
+  const {user: me} = useUserContext();
+  const isMe = me && me.id === userId;
   useEffect(() => {
     (async () => {
       try {
@@ -35,6 +38,18 @@ const Profile = ({userId}: ProfileProps) => {
 
     return () => {};
   }, [userId]);
+
+  useEffect(() => {
+    if (!isMe) {
+      return;
+    }
+    events.event.addListener('refresh', onRefresh);
+    events.event.addListener('removePost', onRemove);
+    return () => {
+      events.event.removeListener('refresh', onRefresh);
+      events.event.removeListener('removePost', onRemove);
+    };
+  }, [onRefresh, isMe, onRemove]);
 
   const renderItem = (props: PostTypes) => {
     return <PostGridItem post={props} />;

@@ -8,10 +8,10 @@ import {
 import React, {useState} from 'react';
 import Icon from '../atoms/Icon';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import UploadModeModal from '../organisms/UploadModeModal';
 import useImagePicker from '../../hooks/useImagePicker';
 import {useNavigation} from '@react-navigation/native';
 import {MainNavigateType} from '../../types/navigateTypes';
+import MenuModal from '../organisms/MenuModal';
 
 const TABBAR_HEIGHT = 49;
 
@@ -58,12 +58,17 @@ const CameraButton = () => {
 
   const onTakePicture = async () => {
     const response = await onLaunchCamera();
-    // console.log('사진찍기', response);
+    if (response.didCancel) {
+      return;
+    }
     navigate.navigate('upload', response);
   };
+
   const onSelectPicture = async () => {
     const response = await onLaunchImageLibrary();
-    // console.log('사진선택', response);
+    if (response.didCancel) {
+      return;
+    }
     navigate.navigate('upload', response);
   };
 
@@ -78,11 +83,21 @@ const CameraButton = () => {
         </Pressable>
       </View>
       {Platform.OS === 'android' && (
-        <UploadModeModal
+        <MenuModal
           modalVisible={modalVisible}
           onModalClose={onModalClose}
-          onSelectPicture={onSelectPicture}
-          onTakePicture={onTakePicture}
+          actions={[
+            {
+              icon: 'camera-alt',
+              text: '카메라로 촬영하기',
+              onPress: onTakePicture,
+            },
+            {
+              icon: 'photo',
+              text: '사진 선택하기',
+              onPress: onSelectPicture,
+            },
+          ]}
         />
       )}
     </>

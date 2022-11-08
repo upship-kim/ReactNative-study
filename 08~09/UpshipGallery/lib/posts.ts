@@ -25,6 +25,16 @@ export function createPost({user, description, photoURL}: CreatePostTypes) {
     createdAt: firstore.FieldValue.serverTimestamp(),
   });
 }
+export function updatePost({
+  id,
+  description,
+}: Pick<PostTypes, 'id' | 'description'>) {
+  return postsCollection.doc(id).update({description});
+}
+
+export function deletePost({id}: Pick<PostTypes, 'id'>) {
+  return postsCollection.doc(id).delete();
+}
 
 export const PAGE_SIZE = 12;
 
