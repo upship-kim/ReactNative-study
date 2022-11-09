@@ -13,6 +13,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Input from '../components/atoms/Input';
 import IconRightButton from '../components/molecules/IconRightButton';
 import {updatePost} from '../lib/posts';
+import events from '../lib/event';
 
 const ModifyScreen = () => {
   const navigate = useNavigation<ModifyNavigateType>();
@@ -30,11 +31,11 @@ const ModifyScreen = () => {
         text: '수정',
         onPress: async () => {
           try {
-            const response = await updatePost({
+            await updatePost({
               id,
               description: editDescription,
             });
-            console.log(response);
+            await events.refresh();
 
             navigate.pop();
           } catch (e) {
@@ -47,13 +48,12 @@ const ModifyScreen = () => {
 
   useEffect(() => {
     navigate.setOptions({
-      title: '설명 수정',
       headerRight: () => (
         <IconRightButton name="check" color="#6200ee" onPress={onSubmit} />
       ),
     });
     return () => {};
-  }, [description, navigate, onSubmit]);
+  }, [navigate, onSubmit]);
 
   return (
     <KeyboardAvoidingView

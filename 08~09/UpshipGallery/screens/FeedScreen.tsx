@@ -16,8 +16,8 @@ const FeedScreen = () => {
     events.event.addListener('refresh', onRefresh);
     events.event.addListener('removePost', onRemove);
     return () => {
-      events.event.removeListener('refresh', onRefresh);
-      events.event.removeListener('removePost', onRemove);
+      events.event.removeListener('refresh', () => onRefresh);
+      events.event.removeListener('removePost', () => onRemove);
     };
   }, [onRefresh, onRemove]);
 

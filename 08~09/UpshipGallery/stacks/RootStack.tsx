@@ -53,13 +53,27 @@ const RootStack = () => {
           />
         </>
       )}
-      <Root.Screen name="modify" component={ModifyScreen} />
-      <Root.Screen name="setting" component={SettingScreen} />
       <Root.Screen
         name="upload"
         component={UploadScreen}
         options={{
           title: '새 게시물',
+          headerBackTitle: '뒤로가기',
+        }}
+      />
+      <Root.Screen
+        name="modify"
+        component={ModifyScreen}
+        options={{
+          title: '설명 수정',
+          headerBackTitle: '뒤로가기',
+        }}
+      />
+      <Root.Screen
+        name="setting"
+        component={SettingScreen}
+        options={{
+          title: '설정',
           headerBackTitle: '뒤로가기',
         }}
       />
