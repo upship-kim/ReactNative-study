@@ -48,13 +48,12 @@ const ModifyScreen = () => {
 
   useEffect(() => {
     navigate.setOptions({
-      title: '설명 수정',
       headerRight: () => (
         <IconRightButton name="check" color="#6200ee" onPress={onSubmit} />
       ),
     });
     return () => {};
-  }, [description, navigate, onSubmit]);
+  }, [navigate, onSubmit]);
 
   return (
     <KeyboardAvoidingView
