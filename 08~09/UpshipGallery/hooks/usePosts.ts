@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
+import {useUserContext} from '../contexts/userContext';
 import {
   getNewerPosts,
   getOlderPosts,
@@ -6,11 +7,13 @@ import {
   PAGE_SIZE,
   PostTypes,
 } from '../lib/posts';
+import usePostsCRUDEventEffect from './usePostsCRUDEventEffect';
 
 const usePosts = (userId?: string) => {
   const [posts, setPosts] = useState<PostTypes[]>([]);
   const [noMorePost, setNoMorePost] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const {user} = useUserContext();
 
   const onLoadMore = async () => {
     if (noMorePost || !posts.length || posts.length < PAGE_SIZE) {
@@ -70,6 +73,13 @@ const usePosts = (userId?: string) => {
     onFetching();
     return () => {};
   }, []);
+
+  usePostsCRUDEventEffect({
+    enabled: userId === (user && user.id),
+    onRefresh,
+    onRemove,
+  });
+
   return {
     posts,
     refreshing,
