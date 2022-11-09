@@ -61,7 +61,7 @@ const SignInScreen = () => {
     try {
       const {user} = isJoin ? await signUp(sendInfo) : await signIn(sendInfo);
       const response = await getUser(user.uid);
-
+      console.log(response);
       if (!response) {
         navigation.navigate('welcome', user);
         return;

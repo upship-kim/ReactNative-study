@@ -78,3 +78,7 @@
   타입스크립트에 대응하는 타입들이 무엇이 있는지 확인하였다.
 - 그리고 [공식 문서](https://reactnavigation.org/docs/typescript/#organizing-types) 를 통해 `CompositeNavigationProp` 이란 타입의 역할을 확인하였고, 간결하게 사용할 수 있었다.
 - Stack이 다른 두 navigate의 타입을 병합하여 간편하게 이동할 수 있는 타입을 제공한다.
+
+### 완성 이미지
+
+  <img src="../screenshot/finishGalleryApp.png" width="800">
