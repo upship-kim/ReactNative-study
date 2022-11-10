@@ -21,7 +21,7 @@ const Test = () => {
   const {data, isLoading} = useQuery<TodoTypes>(
     ['todo', id],
     () => getTodo(id),
-    {cacheTime: 50000, staleTime: 10000},
+    {cacheTime: 50000},
   );
 
   if (isLoading) return <ActivityIndicator size={24} />;
